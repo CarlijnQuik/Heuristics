@@ -6,22 +6,20 @@
 # vakken per key value met meerdere waardes.
 # key value where key is studentnumber and value is rest
 
+import classes as obj
 import csv
 
 def load_students(student_file):
     with open(student_file, 'r') as csvfile:
-        try:
-            student = csv.reader(csvfile)
-        except IOError:
-            print "Can not find the file specified!"
-        except:
-            print "Unexpected error!"
+        students = csv.reader(csvfile)
 
-        for row in student:
+        for student in students:
             # store info per row
+
+
     return
 
-def load_classes():
+def load_subjects():
     return
 
 def load_rooms():
