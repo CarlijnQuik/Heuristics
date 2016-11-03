@@ -7,14 +7,22 @@
 # key value where key is studentnumber and value is rest
 
 import csv
-with open('input_files/studenten_roostering_1.csv', 'r') as csvfile:
-    try:
-        student = csv.reader(csvfile)
-        break
-    except LookupError:
-        print ""
-    except:
-        print "Can not open the selected file"
 
-    for row in student:
-        # store info per row
+def load_students(student_file):
+    with open(student_file, 'r') as csvfile:
+        try:
+            student = csv.reader(csvfile)
+        except IOError:
+            print "Can not find the file specified!"
+        except:
+            print "Unexpected error!"
+
+        for row in student:
+            # store info per row
+    return
+
+def load_classes():
+    return
+
+def load_rooms():
+    return
