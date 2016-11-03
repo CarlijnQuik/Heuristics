@@ -7,10 +7,15 @@ class Student(object):
     # How to:
     # store the class (array? or self.class1 = x, self.class2 = null etc
 
-    def __init__(self, id, last_name, first_name):
+    def __init__(self, id, last_name, first_name, subject1 = None, subject2 = None, subject3 = None, subject4 = None, subject5 = None):
         self.id = id
         self.last_name = last_name
         self.first_name = first_name
+        self.subject1 = subject1
+        self.subject2 = subject2
+        self.subject3 = subject3
+        self.subject4 = subject4
+        self.subject5 = subject5
 
     def get_last_name(self):
         return self.last_name
