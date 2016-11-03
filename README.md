@@ -1,3 +1,3 @@
 # heuristieken
 
-# editted by Chris
+# edited by Chris
