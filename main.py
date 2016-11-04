@@ -4,8 +4,8 @@
 import load as loada
 import ptp, visual
 
-student_file = raw_input('Student input file(CSV Format) location: ')
+student_file = raw_input('Student input file: ')
 while not student_file:
-    student_file = raw_input('Student input file(CSV Format) location: ')
+    student_file = raw_input('Student input file(CSV Format): ')
 
 loada.load_students(student_file)

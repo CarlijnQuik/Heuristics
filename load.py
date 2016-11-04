@@ -11,6 +11,7 @@ import csv
 
 def load_students(student_file):
 
+    student_file = validate_input_file(student_file)
     student_as_object = []
 
     try:
@@ -30,9 +31,68 @@ def load_students(student_file):
         return student_as_object
     except IOError:
         print 'Could not find or open the student file!'
+        print 'Make sure your files are located in the input_files folder.'
+    except:
+        print 'Unexpected Error!'
+        raise
 
-def load_subjects():
-    return
+def load_subjects(subject_file):
 
-def load_rooms():
-    return
+    subject_file = validate_input_file(subject_file)
+    subject_as_object = []
+
+    try:
+        with open(subject_file, 'r') as csvfile:
+            print 'Reading subject file..'
+
+            subjects = csv.reader(csvfile)
+            subjects.next()
+
+            for subject in subjects:
+                print 'Processing subject: ' + subject[0]
+                new_object = obj.Subject(subject[0], subject[1], subject[2], subject[3], subject[4], subject[5])
+                subject_as_object.append(new_object)
+
+            print 'Number of subjects processed: ' + str(len(subject_as_object))
+            return subject_as_object
+    except IOError:
+        print 'Could not find or open the student file!'
+        print 'Make sure your files are located in the input_files folder.'
+    except:
+        print 'Unexpected Error!'
+        raise
+
+def load_rooms(room_file):
+
+    room_file = validate_input_file(room_file)
+    room_as_object = []
+
+    try:
+        with open(room_file, 'r') as csvfile:
+            print 'Reading room file..'
+
+            rooms = csv.reader(csvfile)
+            rooms.next()
+
+            for room in rooms:
+                print 'Processing room: ' + room[0]
+                new_object = obj.Room(room[0], room[1])
+                room_as_object.append(new_object)
+
+            print 'Number of rooms processed: ' + str(len(room_as_object))
+            return room_as_object
+    except IOError:
+        print 'Could not find or open the student file!'
+        print 'Make sure your files are located in the input_files folder.'
+    except:
+        print 'Unexpected Error!'
+        raise
+
+
+def validate_input_file(file_location):
+    if file_location[-4:] != '.csv':
+        file_location = file_location + '.csv'
+    if file_location[:12] != 'input_files/':
+        file_location = "input_files/" + file_location
+
+    return file_location
