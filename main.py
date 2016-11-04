@@ -9,3 +9,15 @@ while not student_file:
     student_file = raw_input('Student input file(CSV Format): ')
 
 loada.load_students(student_file)
+
+subject_file = raw_input('Subject input file: ')
+while not subject_file:
+    subject_file = raw_input('Subject input file(CSV Format): ')
+
+loada.load_subjects(subject_file)
+
+room_file = raw_input('Room input file: ')
+while not room_file:
+    room_file = raw_input('Room input file(CSV Format): ')
+
+loada.load_rooms(room_file)
