@@ -11,17 +11,19 @@ class Student(object):
         self.id = id
         self.last_name = last_name
         self.first_name = first_name
-        self.subject1 = subject1
-        self.subject2 = subject2
-        self.subject3 = subject3
-        self.subject4 = subject4
-        self.subject5 = subject5
+        self.subjects = [subject1, subject2, subject3, subject4, subject5]
+
+    def get_id(self):
+        return self.id
 
     def get_last_name(self):
         return self.last_name
 
     def get_first_name(self):
         return self.first_name
+
+    def get_subjects(self):
+        return self.subjects
 
 
 """

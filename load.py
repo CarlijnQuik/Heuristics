@@ -27,6 +27,8 @@ def load_students(student_file):
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
                 student_as_object.append(new_object)
 
+                print new_object.get_subjects()
+
         print 'Number of students processed: ' + str(len(student_as_object))
         return student_as_object
     except IOError:
