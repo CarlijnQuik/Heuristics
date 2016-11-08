@@ -65,7 +65,7 @@ def load_subjects(subject_file):
 def load_rooms(room_file):
 
     room_file = validate_input_file(room_file)
-    room_as_object = []
+    room_as_object = {}
 
     try:
         with open(room_file, 'r') as csvfile:
@@ -77,7 +77,7 @@ def load_rooms(room_file):
             for room in rooms:
                 print 'Processing room: ' + room[0]
                 new_object = obj.Room(room[0], room[1])
-                room_as_object.append(new_object)
+                room_as_object[room[0]] = new_object
 
             print 'Number of rooms processed:', len(room_as_object), '\n'
             return room_as_object
@@ -109,3 +109,26 @@ def load_students_to_subjects(student_list, subject_list):
             print len(subject.student_list), 'students for', subject.name
     except:
         print 'Could not load students to subjects!'
+
+def load_schedule(subjects, rooms):
+    week = {}
+    # empty formats
+    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
+    layout_times = {'9h': None, '11h': None, '13h': None, '15h': None, '17h': None}
+
+    for day in days:
+        empty_day = {}
+
+        for room in rooms:
+            # room_var = room.room
+            filled_times = layout_times.copy()
+            for time in filled_times:
+                filled_times[time] = subjects[1]
+
+            #empty_day[room.name] = [room, filled_times]
+            print room
+            empty_day[room] = {'room_details': room, 'time_table': filled_times}
+
+        week[day] = empty_day
+
+    return week
