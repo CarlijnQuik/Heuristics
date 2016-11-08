@@ -12,7 +12,7 @@ import csv
 def load_students(student_file):
 
     student_file = validate_input_file(student_file)
-    student_as_object = []
+    student_as_object = {}
 
     try:
         with open(student_file, 'r') as csvfile:
@@ -25,7 +25,7 @@ def load_students(student_file):
             for student in students:
                 print 'Processing student #' + student[2]
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
-                student_as_object.append(new_object)
+                student_as_object[student[2]] = new_object
 
         print 'Number of students processed:', len(student_as_object), '\n'
         return student_as_object
@@ -103,12 +103,13 @@ def load_students_to_subjects(student_list, subject_list):
     try:
         for subject in subject_list:
             for student in student_list:
+                student = student_list[student]
                 for i in student.subjects:
                     if i.lower() == subject.name.lower():
                         subject.student_list.append(student)
             print len(subject.student_list), 'students for', subject.name
     except:
-        print 'Could not load students to subjects!'
+       print 'Could not load students to subjects!'
 
 def load_schedule(subjects, rooms):
     week = {}
@@ -125,8 +126,6 @@ def load_schedule(subjects, rooms):
             for time in filled_times:
                 filled_times[time] = subjects[1]
 
-            #empty_day[room.name] = [room, filled_times]
-            print room
             empty_day[room] = {'room_details': room, 'time_table': filled_times}
 
         week[day] = empty_day

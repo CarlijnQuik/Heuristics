@@ -57,5 +57,12 @@ print rooms['A1.10'].name
 # print capacity
 print rooms['A1.10'].capacity
 
+# Print student name
+print students['82066165'].first_name, students['82066165'].last_name
+
+# Get student Subjects
+print students['82066165'].subjects
+
+
 #
 # End test code
