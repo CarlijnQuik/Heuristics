@@ -23,5 +23,5 @@ while not room_file:
 rooms = loada.load_rooms(room_file)
 
 loada.load_students_to_subjects(students, subjects)
-print '\n\n'
-print 'DONE LOADING!'
+print '\n'
+print ' DONE LOADING!'
