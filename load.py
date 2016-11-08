@@ -27,7 +27,7 @@ def load_students(student_file):
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
                 student_as_object.append(new_object)
 
-        print 'Number of students processed:', len(student_as_object)
+        print 'Number of students processed:', len(student_as_object), '\n'
         return student_as_object
     except IOError:
         print 'Could not find or open the student file!'
@@ -53,7 +53,7 @@ def load_subjects(subject_file):
                 new_object = obj.Subject(subject[0], subject[1], subject[2], subject[3], subject[4], subject[5])
                 subject_as_object.append(new_object)
 
-            print 'Number of subjects processed:', len(subject_as_object)
+            print 'Number of subjects processed:', len(subject_as_object), '\n'
             return subject_as_object
     except IOError:
         print 'Could not find or open the student file!'
@@ -79,7 +79,7 @@ def load_rooms(room_file):
                 new_object = obj.Room(room[0], room[1])
                 room_as_object.append(new_object)
 
-            print 'Number of rooms processed:', len(room_as_object)
+            print 'Number of rooms processed:', len(room_as_object), '\n'
             return room_as_object
     except IOError:
         print 'Could not find or open the student file!'
