@@ -96,3 +96,16 @@ def validate_input_file(file_location):
         file_location = "input_files/" + file_location
 
     return file_location
+
+# load students to array in subject object
+def load_students_to_subjects(student_list, subject_list):
+    # for every subject, we want to create a link to every student with that subject
+    try:
+        for subject in subject_list:
+            for student in student_list:
+                for i in student.subjects:
+                    if i.lower() == subject.name.lower():
+                        subject.student_list.append(student)
+            print len(subject.student_list), 'students for', subject.name
+    except:
+        print 'Could not load students to subjects!'
