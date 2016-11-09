@@ -126,7 +126,7 @@ def load_schedule(subjects, rooms):
             for time in filled_times:
                 filled_times[time] = subjects[1]
 
-            empty_day[room] = {'room_details': room, 'time_table': filled_times}
+            empty_day[room] = filled_times
 
         week[day] = empty_day
 
