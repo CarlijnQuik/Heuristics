@@ -6,13 +6,14 @@
 # vakken per key value met meerdere waardes.
 # key value where key is studentnumber and value is rest
 
-import classes as obj
+import schedule_elements_class as obj
+import schedule_class as schedule
 import csv
 
 def load_students(student_file):
 
     student_file = validate_input_file(student_file)
-    student_as_object = []
+    student_as_object = {}
 
     try:
         with open(student_file, 'r') as csvfile:
@@ -25,47 +26,42 @@ def load_students(student_file):
             for student in students:
                 print 'Processing student #' + student[2]
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
-                student_as_object.append(new_object)
+                student_as_object[student[2]] = new_object
 
         print 'Number of students processed:', len(student_as_object), '\n'
         return student_as_object
     except IOError:
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
-    except:
-        print 'Unexpected Error!'
-        raise
 
-def load_subjects(subject_file):
+def load_courses(course_file, student_list):
 
-    subject_file = validate_input_file(subject_file)
-    subject_as_object = []
+    course_file = validate_input_file(course_file)
+    course_as_object = []
 
     try:
-        with open(subject_file, 'r') as csvfile:
+        with open(course_file, 'r') as csvfile:
             print 'Reading subject file..'
 
-            subjects = csv.reader(csvfile)
-            subjects.next()
+            courses = csv.reader(csvfile)
+            courses.next()
 
-            for subject in subjects:
-                print 'Processing subject: ' + subject[0]
-                new_object = obj.Subject(subject[0], subject[1], subject[2], subject[3], subject[4], subject[5])
-                subject_as_object.append(new_object)
+            for course in courses:
+                new_object = obj.Course(course[0], course[1], course[2], course[3], course[4], course[5])
+                new_object.set_students(student_list)
+                course_as_object.append(new_object)
+                print 'Processing course:', course[0], "(" + str(len(new_object.student_list)) + ")"
 
-            print 'Number of subjects processed:', len(subject_as_object), '\n'
-            return subject_as_object
+            print 'Number of course processed:', len(course_as_object), '\n'
+            return course_as_object
     except IOError:
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
-    except:
-        print 'Unexpected Error!'
-        raise
 
 def load_rooms(room_file):
 
     room_file = validate_input_file(room_file)
-    room_as_object = []
+    room_as_object = {}
 
     try:
         with open(room_file, 'r') as csvfile:
@@ -77,16 +73,13 @@ def load_rooms(room_file):
             for room in rooms:
                 print 'Processing room: ' + room[0]
                 new_object = obj.Room(room[0], room[1])
-                room_as_object.append(new_object)
+                room_as_object[room[0]] = new_object
 
             print 'Number of rooms processed:', len(room_as_object), '\n'
             return room_as_object
     except IOError:
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
-    except:
-        print 'Unexpected Error!'
-        raise
 
 
 def validate_input_file(file_location):
@@ -97,15 +90,19 @@ def validate_input_file(file_location):
 
     return file_location
 
-# load students to array in subject object
-def load_students_to_subjects(student_list, subject_list):
-    # for every subject, we want to create a link to every student with that subject
-    try:
-        for subject in subject_list:
-            for student in student_list:
-                for i in student.subjects:
-                    if i.lower() == subject.name.lower():
-                        subject.student_list.append(student)
-            print len(subject.student_list), 'students for', subject.name
-    except:
-        print 'Could not load students to subjects!'
+
+def load_schedule(courses, rooms):
+    week = {}
+    # empty formats
+    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
+    layout_times = {'9h': {}, '11h': {}, '13h': {}, '15h': {}, '17h': {}}
+
+    for day in days:
+        empty_day = {}
+
+        for room in rooms:
+            empty_day[room] = layout_times.copy()
+
+        week[day] = empty_day
+
+    return week

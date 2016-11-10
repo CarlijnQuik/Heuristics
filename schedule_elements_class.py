@@ -27,7 +27,7 @@ Each class has x amounts of lectures, seminars, students, practicums
 Seminars and practicums can have a max size too
 
 """
-class Subject(object):
+class Course(object):
     # English for: Werkcollege?
     # q = quantity
     def __init__(self, name, q_lecture, q_seminar, seminar_max_students, q_practicum, practicum_max_students):
@@ -38,3 +38,14 @@ class Subject(object):
         self.q_practicum = q_practicum
         self.practicum_max_students = practicum_max_students
         self.student_list = []
+
+    def set_students(self, student_list):
+        try:
+            for student in student_list:
+                student = student_list[student]
+                for i in student.subjects:
+                    if i.lower() == self.name.lower():
+                        self.student_list.append(student)
+        except:
+            print 'Could not load students to subjects!'
+

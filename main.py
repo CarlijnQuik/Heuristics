@@ -1,27 +1,90 @@
 # import libraries and other files
 
-# add function clls in here or in the correct file. So load_students is called/handled fully in load.py
-import load as loada
+import load as loader
 import ptp, visual
 
-student_file = raw_input('Student input file: ')
-while not student_file:
-    student_file = raw_input('Student input file(CSV Format): ')
+debug = True
+if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
+    students = loader.load_students('studenten_roostering.csv')
+    courses = loader.load_courses('vakken.csv', students)
+    rooms = loader.load_rooms('zalen.csv')
+else:
+    student_file = raw_input('Student input file: ')
+    while not student_file:
+        student_file = raw_input('Student input file(CSV Format): ')
 
-students = loada.load_students(student_file)
+    students = loader.load_students(student_file)
 
-subject_file = raw_input('Subject input file: ')
-while not subject_file:
-    subject_file = raw_input('Subject input file(CSV Format): ')
+    course_file = raw_input('Course input file: ')
+    while not course_file:
+        course_file = raw_input('Course input file(CSV Format): ')
 
-subjects = loada.load_subjects(subject_file)
+    courses = loader.load_courses(course_file, students)
 
-room_file = raw_input('Room input file: ')
-while not room_file:
-    room_file = raw_input('Room input file(CSV Format): ')
+    room_file = raw_input('Room input file: ')
+    while not room_file:
+        room_file = raw_input('Room input file(CSV Format): ')
 
-rooms = loada.load_rooms(room_file)
+    rooms = loader.load_rooms(room_file)
 
-loada.load_students_to_subjects(students, subjects)
+# Create an empty schedule
+schedule = loader.load_schedule(courses, rooms)
+
 print '\n'
 print ' DONE LOADING!'
+
+
+#
+#
+#   Test code load_schedule
+#       Will be removed after writing functions
+#
+
+
+# schedule on day x for room z
+print schedule['wednesday']['C0.110']
+
+print schedule['tuesday']['B0.201']['9h']
+
+# seminar max students of that Subject
+# print schedule['thursday']['B0.201']['9h']['Algoritmen en complexiteit'].seminar_max_students
+
+# Amount of people following this course/Subject
+# print len(schedule['tuesday']['B0.201']['9h']['Algoritmen en complexiteit'].student_list)
+
+# Room object by name
+print rooms['A1.10']
+
+# Room name
+print rooms['A1.10'].name
+
+# print capacity
+print rooms['A1.10'].capacity
+
+# Print student name
+print students['82066165'].first_name, students['82066165'].last_name
+
+# Get student Subjects
+print students['82066165'].subjects
+
+
+#
+# End test code
+
+
+
+
+#
+#
+#   Test code ptp.py
+#       Will be removed after writing functions
+#
+
+print 'PTP Test code: \n'
+
+print ptp.ptp(students, courses, rooms, schedule)
+
+
+
+#
+# End test code
