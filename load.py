@@ -124,7 +124,7 @@ def load_schedule(subjects, rooms):
             # room_var = room.room
             filled_times = layout_times.copy()
             for time in filled_times:
-                filled_times[time] = subjects[1]
+                filled_times[time] = {subjects[1].name: subjects[1], subjects[2].name: subjects[2]}
 
             empty_day[room] = filled_times
 

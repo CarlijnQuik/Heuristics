@@ -42,23 +42,19 @@ print schedule['wednesday']['C0.110']
 print schedule['tuesday']['B0.201']['9h']
 
 # seminar max students of that Subject
-print schedule['thursday']['B0.201']['9h'].seminar_max_students
+print schedule['thursday']['B0.201']['9h']['Algoritmen en complexiteit'].seminar_max_students
 
 # Amount of people following this course/Subject
-print len(schedule['tuesday']['B0.201']['9h'].student_list)
+print len(schedule['tuesday']['B0.201']['9h']['Algoritmen en complexiteit'].student_list)
 
 # Room object by name
 print rooms['A1.10']
 
 # Room name
 print rooms['A1.10'].name
-# OR
-# print schedule['wednesday']['C0.110']['room_details'].name
 
 # print capacity
 print rooms['A1.10'].capacity
-# OR
-# print schedule['wednesday']['C0.110']['room_details'].capacity
 
 # Print student name
 print students['82066165'].first_name, students['82066165'].last_name
