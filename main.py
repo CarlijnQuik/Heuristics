@@ -3,23 +3,29 @@
 import load as loader
 import ptp, visual
 
-student_file = raw_input('Student input file: ')
-while not student_file:
-    student_file = raw_input('Student input file(CSV Format): ')
+debug = True
+if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
+    students = loader.load_students('studenten_roostering.csv')
+    courses = loader.load_courses('vakken.csv', students)
+    rooms = loader.load_rooms('zalen.csv')
+else:
+    student_file = raw_input('Student input file: ')
+    while not student_file:
+        student_file = raw_input('Student input file(CSV Format): ')
 
-students = loader.load_students(student_file)
+    students = loader.load_students(student_file)
 
-course_file = raw_input('Course input file: ')
-while not course_file:
-    course_file = raw_input('Course input file(CSV Format): ')
+    course_file = raw_input('Course input file: ')
+    while not course_file:
+        course_file = raw_input('Course input file(CSV Format): ')
 
-courses = loader.load_courses(course_file, students)
+    courses = loader.load_courses(course_file, students)
 
-room_file = raw_input('Room input file: ')
-while not room_file:
-    room_file = raw_input('Room input file(CSV Format): ')
+    room_file = raw_input('Room input file: ')
+    while not room_file:
+        room_file = raw_input('Room input file(CSV Format): ')
 
-rooms = loader.load_rooms(room_file)
+    rooms = loader.load_rooms(room_file)
 
 # Create an empty schedule
 schedule = loader.load_schedule(courses, rooms)
