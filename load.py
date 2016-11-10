@@ -6,7 +6,8 @@
 # vakken per key value met meerdere waardes.
 # key value where key is studentnumber and value is rest
 
-import classes as obj
+import schedule_elements_class as obj
+import schedule_class as schedule
 import csv
 
 def load_students(student_file):
@@ -32,35 +33,30 @@ def load_students(student_file):
     except IOError:
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
-    except:
-        print 'Unexpected Error!'
-        raise
 
-def load_subjects(subject_file):
+def load_courses(course_file, student_list):
 
-    subject_file = validate_input_file(subject_file)
-    subject_as_object = []
+    course_file = validate_input_file(course_file)
+    course_as_object = []
 
     try:
-        with open(subject_file, 'r') as csvfile:
+        with open(course_file, 'r') as csvfile:
             print 'Reading subject file..'
 
-            subjects = csv.reader(csvfile)
-            subjects.next()
+            courses = csv.reader(csvfile)
+            courses.next()
 
-            for subject in subjects:
-                print 'Processing subject: ' + subject[0]
-                new_object = obj.Subject(subject[0], subject[1], subject[2], subject[3], subject[4], subject[5])
-                subject_as_object.append(new_object)
+            for course in courses:
+                new_object = obj.Course(course[0], course[1], course[2], course[3], course[4], course[5])
+                new_object.set_students(student_list)
+                course_as_object.append(new_object)
+                print 'Processing course:', course[0], "(" + str(len(new_object.student_list)) + ")"
 
-            print 'Number of subjects processed:', len(subject_as_object), '\n'
-            return subject_as_object
+            print 'Number of course processed:', len(course_as_object), '\n'
+            return course_as_object
     except IOError:
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
-    except:
-        print 'Unexpected Error!'
-        raise
 
 def load_rooms(room_file):
 
@@ -84,9 +80,6 @@ def load_rooms(room_file):
     except IOError:
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
-    except:
-        print 'Unexpected Error!'
-        raise
 
 
 def validate_input_file(file_location):
@@ -97,36 +90,18 @@ def validate_input_file(file_location):
 
     return file_location
 
-# load students to array in subject object
-def load_students_to_subjects(student_list, subject_list):
-    # for every subject, we want to create a link to every student with that subject
-    try:
-        for subject in subject_list:
-            for student in student_list:
-                student = student_list[student]
-                for i in student.subjects:
-                    if i.lower() == subject.name.lower():
-                        subject.student_list.append(student)
-            print len(subject.student_list), 'students for', subject.name
-    except:
-       print 'Could not load students to subjects!'
 
-def load_schedule(subjects, rooms):
+def load_schedule(courses, rooms):
     week = {}
     # empty formats
     days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
-    layout_times = {'9h': None, '11h': None, '13h': None, '15h': None, '17h': None}
+    layout_times = {'9h': {}, '11h': {}, '13h': {}, '15h': {}, '17h': {}}
 
     for day in days:
         empty_day = {}
 
         for room in rooms:
-            # room_var = room.room
-            filled_times = layout_times.copy()
-            for time in filled_times:
-                filled_times[time] = {subjects[1].name: subjects[1], subjects[2].name: subjects[2]}
-
-            empty_day[room] = filled_times
+            empty_day[room] = layout_times.copy()
 
         week[day] = empty_day
 
