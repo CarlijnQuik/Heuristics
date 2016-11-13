@@ -7,7 +7,6 @@
 # key value where key is studentnumber and value is rest
 
 import schedule_elements_class as obj
-import schedule_class as schedule
 import csv
 
 def load_students(student_file):
@@ -89,20 +88,3 @@ def validate_input_file(file_location):
         file_location = "input_files/" + file_location
 
     return file_location
-
-
-def load_schedule(courses, rooms):
-    week = {}
-    # empty formats
-    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
-    layout_times = {'9h': {}, '11h': {}, '13h': {}, '15h': {}, '17h': {}}
-
-    for day in days:
-        empty_day = {}
-
-        for room in rooms:
-            empty_day[room] = layout_times.copy()
-
-        week[day] = empty_day
-
-    return week

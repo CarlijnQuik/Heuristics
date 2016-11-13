@@ -1,6 +1,7 @@
 # import libraries and other files
 
 import load as loader
+import schedule_class as schedule
 import ptp, visual
 
 debug = True
@@ -28,7 +29,7 @@ else:
     rooms = loader.load_rooms(room_file)
 
 # Create an empty schedule
-schedule = loader.load_schedule(courses, rooms)
+schedule = schedule.Schedule(rooms)
 
 print '\n'
 print ' DONE LOADING!'
@@ -66,24 +67,6 @@ print students['82066165'].first_name, students['82066165'].last_name
 
 # Get student Subjects
 print students['82066165'].subjects
-
-
-#
-# End test code
-
-
-
-
-#
-#
-#   Test code ptp.py
-#       Will be removed after writing functions
-#
-
-print 'PTP Test code: \n'
-
-print ptp.ptp(students, courses, rooms, schedule)
-
 
 
 #
