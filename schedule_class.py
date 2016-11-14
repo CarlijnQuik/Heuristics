@@ -1,64 +1,50 @@
 class Schedule(object):
+    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
+    times = {'9h': {}, '11h': {}, '13h': {}, '15h': {}, '17h': {}}
+
     def __init__(self, room_list):
+        self.rooms = []
         self.week = {}
 
-        # empty formats
-        days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
-        layout_times = {'9h': {}, '11h': {}, '13h': {}, '15h': {}, '17h': {}}
+        for room in room_list:
+            self.rooms.append(room)
 
-        for day in days:
+        # empty formats
+        for day in self.days:
             empty_day = {}
 
             for room in room_list:
-                empty_day[room] = layout_times.copy()
+                empty_day[room] = self.times.copy()
 
             self.week[day] = empty_day
 
-    def add(self):
+    def add(self, path, course, type):
+        # TODO
+        # Course Object.
+        # Location path
+
+        # Check if same room not already taken
+        if not self.week[path[0]][path[1]][path[2]]:
+
+            self.week[path[0]][path[1]][path[2]] = {course.name: course, 'type': type}
+            print course.name, "added to", path[0], path[1], path[2]
+            return True
+
+        print "Room", path[1], "is already taken."
+        return False
+
+
+
+    def swap(self, path_one, path_two):
+        # TODO
+        # Object, path and types
+        none = None
+
+    def find_empty(self):
         # TODO
 
-    def swap(self, course1, course2):
-        # TODO
-
-
-#
-#   To be deleted/used in this class
-#
-
-# Algo
-def ptp(student_list, course_list, room_list, schedule):
-    # TODO
-    # for course in course_list:
-        add_course(course_list[5], schedule)
-
-# Swap two courses
-def swap_course():
-    # TODO
-    none = None
-
-# Add a course to an empty schedule spot
-def add_course(course, schedule):
-    # TODO
-    empty = find_empty(schedule)
-    if empty is not None:
-        print 'NOT EMPTY!'
-
-
-# Remove course X from the schedule
-def remove_course():
-    # TODO
-    none = None
-
-# Find empty spot in schedule
-def find_empty(schedule):
-    for day in schedule:
-        print day
-        for room in schedule[day]:
-            print room
-            for time in schedule[day][room]:
-                print time
-                for course in schedule[day][room][time]:
-                    print course
-                    if course is None:
-                        return {'day': day, 'room': room, 'time': time}
-    return None
+        for day in self.days:
+            for room in self.rooms:
+                for time in self.times:
+                    if not self.week[day][room][time]:
+                        return [day, room, time]

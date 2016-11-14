@@ -37,36 +37,51 @@ print ' DONE LOADING!'
 
 #
 #
-#   Test code load_schedule
+#   Test schedule class
 #       Will be removed after writing functions
 #
 
+# Test fill one spot
+print schedule.add(['wednesday', 'C0.110', '11h'], courses[1], 'lecture')
+# Find the next empty slot
+print schedule.find_empty()
 
-# schedule on day x for room z
-print schedule['wednesday']['C0.110']
+print '------------------\n\n'
 
-print schedule['tuesday']['B0.201']['9h']
+#
+# Fill in all courses
 
-# seminar max students of that Subject
-# print schedule['thursday']['B0.201']['9h']['Algoritmen en complexiteit'].seminar_max_students
+for course in courses:
+    for i in course.q_lecture:
+        path = schedule.find_empty()
+        schedule.add([path[0], path[1], path[2]], course, 'lecture')
 
-# Amount of people following this course/Subject
-# print len(schedule['tuesday']['B0.201']['9h']['Algoritmen en complexiteit'].student_list)
+    for i in course.q_seminar:
+        path = schedule.find_empty()
+        schedule.add([path[0], path[1], path[2]], course, 'seminar')
+
+    for i in course.q_practicum:
+        path = schedule.find_empty()
+        schedule.add([path[0], path[1], path[2]], course, 'pracitcum')
+
+print schedule.week
+
+
 
 # Room object by name
-print rooms['A1.10']
+# print rooms['A1.10']
 
 # Room name
-print rooms['A1.10'].name
+# print rooms['A1.10'].name
 
 # print capacity
-print rooms['A1.10'].capacity
+# print rooms['A1.10'].capacity
 
 # Print student name
-print students['82066165'].first_name, students['82066165'].last_name
+# print students['82066165'].first_name, students['82066165'].last_name
 
 # Get student Subjects
-print students['82066165'].subjects
+# print students['82066165'].subjects
 
 
 #
