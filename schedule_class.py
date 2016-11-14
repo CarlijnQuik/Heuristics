@@ -1,13 +1,12 @@
+import csv
+
 class Schedule(object):
     days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
     times = {'9h': {}, '11h': {}, '13h': {}, '15h': {}, '17h': {}}
 
     def __init__(self, room_list):
-        self.rooms = []
+        self.rooms = room_list
         self.week = {}
-
-        for room in room_list:
-            self.rooms.append(room)
 
         # empty formats
         for day in self.days:
@@ -23,11 +22,15 @@ class Schedule(object):
         # Course Object.
         # Location path
 
+        if len(path) is not 3:
+            print "Invalid path!"
+            return False
+
         # Check if same room not already taken
         if not self.week[path[0]][path[1]][path[2]]:
 
-            self.week[path[0]][path[1]][path[2]] = {course.name: course, 'type': type}
-            print course.name, "added to", path[0], path[1], path[2]
+            self.week[path[0]][path[1]][path[2]] = {'course': course, 'type': type}
+            print "\t", course.name, "added to", path[0], path[1], path[2]
             return True
 
         print "Room", path[1], "is already taken."
@@ -38,13 +41,45 @@ class Schedule(object):
     def swap(self, path_one, path_two):
         # TODO
         # Object, path and types
-        none = None
 
-    def find_empty(self):
-        # TODO
 
+        try:
+            placeHolder = self.week[path_one['day']][path_one['room']][path_one['time']]
+            self.week[path_one['day']][path_one['room']][path_one['time']] = self.week[path_two['day']][path_two['room']][path_two['time']]
+            self.week[path_two['day']][path_two['room']][path_two['time']] = placeHolder
+        except:
+            print 'Could not swap', path_one, 'and', path_two
+
+
+
+    def find_empty(self, size = 0):
         for day in self.days:
             for room in self.rooms:
                 for time in self.times:
                     if not self.week[day][room][time]:
-                        return [day, room, time]
+
+                        # Only check if all people fit. Not smaller groups etc.
+                        if size is not 0 and int(size) <= int(self.rooms[room].capacity):
+                            return {'day': day, 'room': room, 'time': time}
+                        elif size is 0:
+                            return {'day': day, 'room': room, 'time': time}
+                        else:
+                            print "Can not find a suitable room!"
+
+    # Write schedule to a readable CSV file format
+    def write_csv(self):
+        # TODO
+        try:
+            with open("output_files/schedule2.csv", "wb+") as csvfile:
+                cursor = csv.writer(csvfile)
+                for day in self.days:
+                    for room in self.rooms:
+                        for time in self.times:
+                            if self.week[day][room][time]:
+                                course_name = self.week[day][room][time]['course'].name
+                                course_type = self.week[day][room][time]['type']
+
+                                cursor.writerow([day, room, time, course_name, course_type])
+        except IOError:
+            # Change the name of the file possibly?
+            print "Could not create output file!"

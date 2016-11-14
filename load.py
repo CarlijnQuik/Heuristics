@@ -23,7 +23,7 @@ def load_students(student_file):
             students.next()
 
             for student in students:
-                print 'Processing student #' + student[2]
+                print '\tProcessing student #' + student[2]
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
                 student_as_object[student[2]] = new_object
 
@@ -49,7 +49,7 @@ def load_courses(course_file, student_list):
                 new_object = obj.Course(course[0], course[1], course[2], course[3], course[4], course[5])
                 new_object.set_students(student_list)
                 course_as_object.append(new_object)
-                print 'Processing course:', course[0], "(" + str(len(new_object.student_list)) + ")"
+                print '\tProcessing course:', course[0], "(" + str(len(new_object.student_list)) + ")"
 
             print 'Number of course processed:', len(course_as_object), '\n'
             return course_as_object
@@ -70,7 +70,7 @@ def load_rooms(room_file):
             rooms.next()
 
             for room in rooms:
-                print 'Processing room: ' + room[0]
+                print '\tProcessing room: ' + room[0]
                 new_object = obj.Room(room[0], room[1])
                 room_as_object[room[0]] = new_object
 

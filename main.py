@@ -1,8 +1,11 @@
 # import libraries and other files
 
 import load as loader
-import schedule_class as schedule
 import ptp, visual
+
+TYPE_LECTURE = 'lecture'
+TYPE_SEMINAR = 'seminar'
+TYPE_PRACTICUM = 'practicum'
 
 debug = True
 if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
@@ -28,43 +31,11 @@ else:
 
     rooms = loader.load_rooms(room_file)
 
-# Create an empty schedule
-schedule = schedule.Schedule(rooms)
+print '\n\tDONE LOADING!\n'
 
-print '\n'
-print ' DONE LOADING!'
-
-
-#
-#
-#   Test schedule class
-#       Will be removed after writing functions
-#
-
-# Test fill one spot
-print schedule.add(['wednesday', 'C0.110', '11h'], courses[1], 'lecture')
-# Find the next empty slot
-print schedule.find_empty()
-
-print '------------------\n\n'
-
-#
-# Fill in all courses
-
-for course in courses:
-    for i in course.q_lecture:
-        path = schedule.find_empty()
-        schedule.add([path[0], path[1], path[2]], course, 'lecture')
-
-    for i in course.q_seminar:
-        path = schedule.find_empty()
-        schedule.add([path[0], path[1], path[2]], course, 'seminar')
-
-    for i in course.q_practicum:
-        path = schedule.find_empty()
-        schedule.add([path[0], path[1], path[2]], course, 'pracitcum')
-
-print schedule.week
+ptp.alg(students, courses, rooms)
+#for room in rooms:
+#    print rooms[room].name, "+", rooms[room].capacity
 
 
 
@@ -82,7 +53,3 @@ print schedule.week
 
 # Get student Subjects
 # print students['82066165'].subjects
-
-
-#
-# End test code
