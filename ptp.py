@@ -1,4 +1,5 @@
 import schedule_class
+import score
 
 TYPE_LECTURE = 'lecture'
 TYPE_SEMINAR = 'seminar'
@@ -25,6 +26,9 @@ def alg(students, courses, rooms):
             schedule.add({'day': path['day'], 'room': path['room'], 'time': path['time']}, course, TYPE_PRACTICUM)
 
     schedule.write_csv()
+
+    # Get score for the Schedule
+    score.calculate(schedule)
 
     # Swap course X with course Y (indicated by path)
     # schedule.swap({'day': 'friday', 'room': 'B0.201', 'time': '11h'}, {'day': 'wednesday', 'room': 'B0.201', 'time': '9h'})

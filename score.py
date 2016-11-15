@@ -1,6 +1,6 @@
 VALID_SCORE = 1000
 
-def score():
+def calculate(schedule):
     # TODO
 
     # Bonus:

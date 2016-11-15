@@ -72,7 +72,6 @@ class Schedule(object):
 
         print 'No suitable room found!'
 
-
     # Write schedule to a readable CSV file format
     def write_csv(self):
         with open("output_files/schedule2.csv", "wb+") as csvfile:
