@@ -37,7 +37,7 @@ class Course(object):
         self.seminar_max_students = seminar_max_students
         self.q_practicum = q_practicum
         self.practicum_max_students = practicum_max_students
-        self.student_list = []
+        self.student_list = {}
 
     def set_students(self, student_list):
         try:
@@ -45,7 +45,8 @@ class Course(object):
                 student = student_list[student]
                 for i in student.subjects:
                     if i.lower() == self.name.lower():
-                        self.student_list.append(student)
+                        self.student_list[student.id] = student
+
         except:
             print 'Could not load students to subjects!'
 

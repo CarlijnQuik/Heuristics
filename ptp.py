@@ -9,20 +9,20 @@ def alg(students, courses, rooms):
     schedule = schedule_class.Schedule(rooms)
 
     # Fill schedule with all possible courses
-    # Not checking max_students and room size
+    # Not checking max_students
     for course in courses:
         print course.name
         for i in range(int(course.q_lecture)):
             path = schedule.find_empty(len(course.student_list))
-            schedule.add([path['day'], path['room'], path['time']], course, TYPE_LECTURE)
+            schedule.add({'day': path['day'], 'room': path['room'], 'time': path['time']}, course, TYPE_LECTURE)
 
         for i in range(int(course.q_seminar)):
             path = schedule.find_empty(len(course.student_list))
-            schedule.add([path['day'], path['room'], path['time']], course, TYPE_SEMINAR)
+            schedule.add({'day': path['day'], 'room': path['room'], 'time': path['time']}, course, TYPE_SEMINAR)
 
         for i in range(int(course.q_practicum)):
             path = schedule.find_empty(len(course.student_list))
-            schedule.add([path['day'], path['room'], path['time']], course, TYPE_PRACTICUM)
+            schedule.add({'day': path['day'], 'room': path['room'], 'time': path['time']}, course, TYPE_PRACTICUM)
 
     schedule.write_csv()
 

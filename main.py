@@ -3,10 +3,6 @@
 import load as loader
 import ptp, visual
 
-TYPE_LECTURE = 'lecture'
-TYPE_SEMINAR = 'seminar'
-TYPE_PRACTICUM = 'practicum'
-
 debug = True
 if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
     students = loader.load_students('studenten_roostering.csv')
