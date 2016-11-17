@@ -1,7 +1,7 @@
 # import libraries and other files
 
 import load as loader
-import ptp, visual
+import ptp #, visual
 
 debug = True
 if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
@@ -30,6 +30,7 @@ else:
 print '\n\tDONE LOADING!\n'
 
 ptp.alg(students, courses, rooms)
+
 #for room in rooms:
 #    print rooms[room].name, "+", rooms[room].capacity
 

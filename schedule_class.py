@@ -20,7 +20,8 @@ class Schedule(object):
             self.week[day] = empty_day
 
 
-    def add(self, path, course, type, group = None):
+    def add(self, path, course, group = None):
+        # type: (object, object, object) -> object
         # TODO
         # Course Object.
         # Location path
@@ -34,15 +35,13 @@ class Schedule(object):
         # Check if same room not already taken
         if not self.week[path['day']][path['room']][path['time']]:
 
-            self.week[path['day']][path['room']][path['time']] = {'course': course, 'type': type, 'group': group}
+            self.week[path['day']][path['room']][path['time']] = {'course': course, 'group': group}
 
             print "\t", course.name, "added to", path['day'], path['room'], path['time']
             return True
 
         print "Room", path[1], "is already taken."
         return False
-
-
 
     def swap(self, path_one, path_two):
         # TODO
@@ -56,9 +55,21 @@ class Schedule(object):
         except:
             print 'Could not swap', path_one, 'and', path_two
 
+    def find_empty(self, size = 0, day = days[0]):
+        for room in self.week[day]:
+            for time in self.week[day][room]:
+                if not self.week[day][room][time]:
 
+                    # Only check if all people fit. Not smaller groups etc.
+                    if size is not 0 and int(size) <= int(self.rooms[room].capacity):
+                        return {'day': day, 'room': room, 'time': time}
+                    elif size is 0:
+                        return {'day': day, 'room': room, 'time': time}
 
-    def find_empty(self, size = 0):
+        print 'No suitable room found!'
+        return False
+
+    def find_emptyrandom(self, size=0):
         for day in self.week:
             for room in self.week[day]:
                 for time in self.week[day][room]:
@@ -81,7 +92,7 @@ class Schedule(object):
                     for time in self.week[day][room]:
                         if self.week[day][room][time]:
                             course_name = self.week[day][room][time]['course'].name
-                            course_type = self.week[day][room][time]['type']
+                            course_type = self.week[day][room][time]
 
-                            cursor.writerow([day, room, time, course_name, course_type])
+                            cursor.writerow([day, room, time, course_name])
             print "Output file generated!"
