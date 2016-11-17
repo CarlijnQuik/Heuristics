@@ -7,6 +7,7 @@
 # key value where key is studentnumber and value is rest
 
 import schedule_elements_class as obj
+import schedule_class
 import csv
 
 def load_students(student_file):
@@ -80,6 +81,22 @@ def load_rooms(room_file):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+def load_schedule(room_list):
+    room_slots = []
+
+    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
+    times = ('0900', '1100', '1300', '1500')
+
+    for room in room_list:
+        for day in days:
+            if room == 'C0.110':
+                room_slots.append(schedule_class.Roomslot(room, day, '1700'))
+
+            for time in times:
+                room_slots.append(schedule_class.Roomslot(room, day, time))
+
+    return room_slots
+
 
 def validate_input_file(file_location):
     if file_location[-4:] != '.csv':
@@ -88,3 +105,4 @@ def validate_input_file(file_location):
         file_location = "input_files/" + file_location
 
     return file_location
+

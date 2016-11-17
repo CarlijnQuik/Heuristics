@@ -27,9 +27,12 @@ else:
 
     rooms = loader.load_rooms(room_file)
 
+
+schedule = loader.load_schedule(rooms)
+
 print '\n\tDONE LOADING!\n'
 
-ptp.alg(students, courses, rooms)
+ptp.alg(students, courses, rooms, schedule)
 #for room in rooms:
 #    print rooms[room].name, "+", rooms[room].capacity
 
