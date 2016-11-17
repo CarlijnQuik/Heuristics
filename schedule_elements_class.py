@@ -31,12 +31,17 @@ class Course(object):
     # English for: Werkcollege?
     # q = quantity
     def __init__(self, name, q_lecture, q_seminar, seminar_max_students, q_practicum, practicum_max_students):
+        if seminar_max_students == "nvt":
+            seminar_max_students = 0
+        if practicum_max_students == "nvt":
+            practicum_max_students = 0
+
         self.name = name
-        self.q_lecture = q_lecture
-        self.q_seminar = q_seminar
-        self.seminar_max_students = seminar_max_students
-        self.q_practicum = q_practicum
-        self.practicum_max_students = practicum_max_students
+        self.q_lecture = int(q_lecture)
+        self.q_seminar = int(q_seminar)
+        self.seminar_max_students = int(seminar_max_students)
+        self.q_practicum = int(q_practicum)
+        self.practicum_max_students = int(practicum_max_students)
         self.student_list = {}
 
     def set_students(self, student_list):

@@ -93,7 +93,7 @@ def load_schedule(room_list):
                 room_slots.append(schedule_class.Roomslot(room, day, '1700'))
 
             for time in times:
-                room_slots.append(schedule_class.Roomslot(room, day, time))
+                room_slots.append(schedule_class.Roomslot(room, day, time.zfill(4)))
 
     return room_slots
 

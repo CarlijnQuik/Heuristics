@@ -1,7 +1,7 @@
 # import libraries and other files
 
 import load as loader
-import ptp, visual
+import ptp, visual, csv
 
 debug = True
 if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
@@ -32,23 +32,28 @@ schedule = loader.load_schedule(rooms)
 
 print '\n\tDONE LOADING!\n'
 
+#
+#
+#   Put all loaded information into the algorithm
+#
+
 ptp.alg(students, courses, rooms, schedule)
-#for room in rooms:
-#    print rooms[room].name, "+", rooms[room].capacity
 
 
 
-# Room object by name
-# print rooms['A1.10']
+#
+#
+#   Quick output function to get an easy schedule overview
+#
 
-# Room name
-# print rooms['A1.10'].name
+def write_csv(schedule):
+    with open("output_files/schedule2.csv", "wb") as csvfile:
+        cursor = csv.writer(csvfile)
 
-# print capacity
-# print rooms['A1.10'].capacity
+        for i, roomslot in enumerate(schedule):
+            if roomslot.course:
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room, roomslot.course.name, roomslot.type])
 
-# Print student name
-# print students['82066165'].first_name, students['82066165'].last_name
+        print "Output file generated!"
 
-# Get student Subjects
-# print students['82066165'].subjects
+write_csv(schedule)
