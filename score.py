@@ -1,4 +1,5 @@
 VALID_SCORE = 1000
+INVALID_SCORE = 0
 
 def calculate(schedule, courses):
     score = 0
@@ -23,37 +24,54 @@ def calculate(schedule, courses):
     score += check_valid_schedule(schedule, courses)
 
     # Minus
+    score -= check_small_room(schedule)
     score -= len(check_multiple_activities(schedule))
 
-    print '{:04d}'.format(score)
+    print '\n\n', 'SCORE: {:04d}'.format(score), '\n\n'
+
     return score
 
+#
+#   Check if all course lessons are in the schedule
+#
 def check_valid_schedule(schedule, courses):
     print "Checking for valid schedule.."
     count = 0
-    q_lectures = 0
-    q_seminar = 0
-    q_practicum = 0
+    q_total = 0
 
 
     for course in courses:
-        q_lectures += course.q_lecture
-        q_seminar += course.q_seminar
-        q_practicum += course.q_practicum
+        q_total += course.q_lecture
+        q_total += course.q_seminar
+        q_total += course.q_practicum
 
         for i, roomslot in enumerate(schedule):
             if course is roomslot.course:
-                print "\tFound ", roomslot.course.name, roomslot.type
+                print "\tFound", roomslot.course.name, roomslot.type
                 count += 1
 
-    if (q_lectures + q_seminar + q_practicum) == count:
-        return 1000
+    if q_total == count:
+        return VALID_SCORE
     else:
         print "Invalid schedule!"
-        return 0
+        return INVALID_SCORE
+
+#
+#   Check for too many students in a room
+#
+def check_small_room(schedule):
+    score = 0
+
+    for i, roomslot in enumerate(schedule):
+        if roomslot.course:
+            if roomslot.room.capacity < len(roomslot.course.student_list):
+                score += len(roomslot.course.student_list) - roomslot.room.capacity
+
+    return score
 
 #
 # Check for hour conflicts per student in the schedule
+#
 def check_multiple_activities(schedule):
     conflict_list = {}
 

@@ -18,7 +18,7 @@ Object representing a room/place where e.g. lectures are given.
 class Room(object):
     def __init__(self, name, capacity):
         self.name = name
-        self.capacity = capacity
+        self.capacity = int(capacity)
 
 """
 

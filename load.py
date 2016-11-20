@@ -71,7 +71,7 @@ def load_rooms(room_file):
             rooms.next()
 
             for room in rooms:
-                print '\tProcessing room: ' + room[0]
+                print '\tProcessing room:', room[0], "cap:", room[1]
                 new_object = obj.Room(room[0], room[1])
                 room_as_object[room[0]] = new_object
 
@@ -88,12 +88,13 @@ def load_schedule(room_list):
     times = ('0900', '1100', '1300', '1500')
 
     for room in room_list:
+        room_object = room_list[room]
         for day in days:
             if room == 'C0.110':
-                room_slots.append(schedule_class.Roomslot(room, day, '1700'))
+                room_slots.append(schedule_class.Roomslot(room_object, day, '1700'))
 
             for time in times:
-                room_slots.append(schedule_class.Roomslot(room, day, time.zfill(4)))
+                room_slots.append(schedule_class.Roomslot(room_object, day, time.zfill(4)))
 
     return room_slots
 
