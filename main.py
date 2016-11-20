@@ -37,8 +37,13 @@ print '\n\tDONE LOADING!\n'
 #   Put all loaded information into the algorithm
 #
 
-ptp.alg(students, courses, rooms, schedule)
+schedule_by_alg =ptp.alg(students, courses, rooms, schedule)
 
+# test voor basic hillclimber algorithm
+#print "HILLCLIMBER ELEMENTS"
+b_hc = ptp.basic_hillclimber(schedule_by_alg, courses, 148)
+
+#print [1,2,3,4] == [1,2,4,3]
 
 
 #
