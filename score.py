@@ -3,9 +3,10 @@ INVALID_SCORE = 0
 
 def calculate(schedule, courses):
     score = 0
-    # TODO
+    # TODO: Multiple activities not logging all duplicates. Needs to return an array
 
     # Bonus:
+    #   Valid schedule (all courses in schedule)
     #   Spread roster (+20 per course)
     #       Get count of how many practicums, lectures and seminars
     #       If count = 2, check if day difference => 3 (monday-thursday, tue-fri)
@@ -24,8 +25,12 @@ def calculate(schedule, courses):
     score += check_valid_schedule(schedule, courses)
 
     # Minus
+    print check_day_duplicate(schedule)
     score -= check_small_room(schedule)
     score -= len(check_multiple_activities(schedule))
+    score -= len(check_day_duplicate(schedule))
+
+    print check_day_duplicate(schedule)
 
     print '\n\n', 'SCORE: {:04d}'.format(score), '\n\n'
 
@@ -69,25 +74,54 @@ def check_small_room(schedule):
 
     return score
 
+
+def check_day_duplicate(schedule):
+    score = 0
+    conflict_list = []
+
+    for i, roomslot in enumerate(schedule):
+        log = []
+        if roomslot.course:
+            for j, roomslot2 in enumerate(schedule):
+                if i is not j and roomslot2.course:
+                    if not [roomslot.course.name, roomslot.day] in log:
+                        if (roomslot.course.name == roomslot2.course.name) and (roomslot.day == roomslot2.day):
+                            log.append([roomslot.course.name, roomslot.day])
+                            conflict_list[roomslot.course.name] = {'course': roomslot.course.name, 'day': roomslot.day}
+                            score += 1
+
+    return conflict_list
+
 #
 # Check for hour conflicts per student in the schedule
 #
 def check_multiple_activities(schedule):
-    conflict_list = {}
+    conflict_list = []
 
     # For every Roomslot, check all other roomslots
     for i, roomslot in enumerate(schedule):
-        for k, roomslot2 in enumerate(schedule):
+        if roomslot.course:
+            for j, roomslot2 in enumerate(schedule):
 
-            # Don't compare the same roomslot
-            if i is not k and roomslot.course and roomslot2.course:
-                if roomslot.time == roomslot2.time and roomslot.day == roomslot2.day:
+                # Don't compare the same roomslot
+                if i is not j and roomslot2.course:
+                    if roomslot.time == roomslot2.time and roomslot.day == roomslot2.day:
 
-                    # Go over studentlist to see if conflicts in this hour
-                    for student_id in roomslot.course.student_list:
-                        student = roomslot.course.student_list[student_id]
-                        if student_id in roomslot2.course.student_list.keys():
-                            # Add to list if conflicted
-                            conflict_list[student_id] = {student_id: student, 'course1': i, 'course2': k}
+                        # Go over studentlist to see if conflicts in this hour
+                        for student_id in roomslot.course.student_list:
+                            student = roomslot.course.student_list[student_id]
+                            if student_id in roomslot2.course.student_list.keys():
+                                # Add to list if conflicted
+                                conflict_list[student_id] = {student_id: student, 'course1': i, 'course2': j}
+
+            #
+            #   Check small room inside existing for loop.
+            #       Possibly faster in calculating score
+            #
+            """
+            if roomslot.course:
+                if roomslot.room.capacity < len(roomslot.course.student_list):
+                    score += len(roomslot.course.student_list) - roomslot.room.capacity
+            """
 
     return conflict_list
