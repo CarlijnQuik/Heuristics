@@ -2,6 +2,7 @@ VALID_SCHEDULE = 1000
 INVALID_SCHEDULE = 0
 
 def calculate(schedule, courses):
+    print "Calculating score.."
     score = 0
 
     # Bonus:
@@ -24,11 +25,14 @@ def calculate(schedule, courses):
     score += check_valid_schedule(schedule, courses)
 
     # Minus
-    score -= check_small_room(schedule)
+    score -= check_small_room(schedule)[1]
     score -= len(check_multiple_activities(schedule))
     score -= len(check_day_duplicate(schedule))
 
-    print '\n\n', 'SCORE: {:04d}'.format(score), '\n\n'
+    # Print conflict list indexes of check_small_room.
+    # print check_small_room(schedule)[0]
+
+    print '\n', 'SCORE: {:04d}'.format(score), '\n\n'
 
     """
 
@@ -88,7 +92,6 @@ def calculate(schedule, courses):
 #   Check if all course lessons are in the schedule
 #
 def check_valid_schedule(schedule, courses):
-    print "Checking for valid schedule.."
     count = 0
     q_total = 0
 
@@ -100,13 +103,13 @@ def check_valid_schedule(schedule, courses):
 
         for i, roomslot in enumerate(schedule):
             if course is roomslot.course:
-                print "\tFound", roomslot.course.name, roomslot.type
                 count += 1
 
     if q_total == count:
+        print "\tValid schedule!"
         return VALID_SCHEDULE
     else:
-        print "Invalid schedule!"
+        print "\tInvalid schedule!"
         return INVALID_SCHEDULE
 
 #
@@ -114,13 +117,17 @@ def check_valid_schedule(schedule, courses):
 #
 def check_small_room(schedule):
     score = 0
+    conflict_list = []
 
     for i, roomslot in enumerate(schedule):
         if roomslot.course:
             if roomslot.room.capacity < len(roomslot.course.student_list):
+
+                conflict_list.append(i)
                 score += len(roomslot.course.student_list) - roomslot.room.capacity
 
-    return score
+    print "\tFound", score, "exceeding(s) of room capacity!"
+    return conflict_list, score
 
 
 def check_day_duplicate(schedule):
@@ -138,6 +145,7 @@ def check_day_duplicate(schedule):
                             key = roomslot.course.name + roomslot.day
                             conflict_list[key] = {'course': roomslot.course, 'day': roomslot.day}
 
+    print "\tFound", len(conflict_list), "day duplicates!"
     return conflict_list
 
 #
@@ -149,14 +157,11 @@ def check_multiple_activities(schedule):
     # For every Roomslot, check all other roomslots
     for i, roomslot in enumerate(schedule):
         if roomslot.course:
-            print i
             # Can optimize by starting this for loop from element I
             for j, roomslot2 in enumerate(schedule):
 
                 # Don't compare the same roomslot
                 if i is not j and roomslot2.course:
-                    print "\t", j
-
                     if roomslot.time == roomslot2.time and roomslot.day == roomslot2.day:
 
                         # Go over studentlist to see if conflicts in this hour
@@ -167,4 +172,5 @@ def check_multiple_activities(schedule):
                                 key = student_id + roomslot.day + roomslot.time
                                 conflict_list[key] = {student_id: student, 'course1': i, 'course2': j}
 
+    print "\tFound", len(conflict_list), "student conflicts!"
     return conflict_list
