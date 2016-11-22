@@ -37,8 +37,12 @@ print '\n\tDONE LOADING!\n'
 #   Put all loaded information into the algorithm
 #
 
-ptp.alg(students, courses, rooms, schedule)
-
+# fill schedule randomly with alg
+schedule_by_alg =ptp.alg(students, courses, rooms, schedule)
+# test voor basic hillclimber algorithm
+# print "HILLCLIMBER ELEMENTS"
+b_hc = ptp.basic_hillclimber(schedule_by_alg, courses, 500)
+print b_hc["schedule"]
 
 
 #
