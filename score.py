@@ -154,7 +154,7 @@ def check_spreading(schedule, courses):
 
 #
 #   Check for too many students in a room
-#   CORRECT
+#   Check if it also does not exceeds practicum_max for example
 #
 def check_small_room(schedule):
     score = 0
@@ -206,7 +206,7 @@ def check_day_duplicate(schedule):
                             else:
                                 conflict_list[key] = [i, j]
 
-            if duplicate_count > 0 and duplicate_count < q_total:
+            if duplicate_count > 0 and duplicate_count <= q_total:
                 score += duplicate_count * 10
 
 
@@ -219,10 +219,13 @@ def check_day_duplicate(schedule):
 #
 def check_multiple_activities(schedule):
     conflict_list = {}
+    student_conflict_count_list = []
 
     # For every Roomslot, check all other roomslots
     for i, roomslot in enumerate(schedule):
         if roomslot.course:
+            student_conflict_count = 0
+
             # Can optimize by starting this for loop from element I
             for j, roomslot2 in enumerate(schedule):
 
@@ -234,12 +237,16 @@ def check_multiple_activities(schedule):
                         for student_id in roomslot.course.student_list:
                             student = roomslot.course.student_list[student_id]
                             if student_id in roomslot2.course.student_list.keys():
+
+                                student_conflict_count += 1
                                 # Add to list if conflicted
                                 key = student_id + roomslot.day + roomslot.time
                                 conflict_list[key] = {student_id: student, 'course1': i, 'course2': j}
 
+            student_conflict_count_list.append(student_conflict_count);
+
     # print "\tFound", len(conflict_list), "student conflicts!"
-    return conflict_list, len(conflict_list)
+    return conflict_list, len(conflict_list), student_conflict_count_list
 
 def get_day_distance(index_list):
     holder = None
