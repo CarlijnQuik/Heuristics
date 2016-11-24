@@ -7,9 +7,4 @@ class Roomslot(object):
         self.day = day
         self.time = time
 
-        self.course = None
-        self.type = None
-
-    def add(self, course, type):
-        self.course = course
-        self.type = type
+        self.activity = None
