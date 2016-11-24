@@ -41,8 +41,7 @@ print '\n\tDONE LOADING!\n'
 schedule_by_alg =ptp.alg(students, courses, rooms, schedule)
 # test voor basic hillclimber algorithm
 # print "HILLCLIMBER ELEMENTS"
-b_hc = ptp.basic_hillclimber(schedule_by_alg, courses, 500)
-print b_hc["schedule"]
+b_hc = ptp.basic_hillclimber(schedule_by_alg, courses, 900)
 
 
 #
@@ -56,8 +55,8 @@ def write_csv(schedule):
 
         for i, roomslot in enumerate(schedule):
             if roomslot.course:
-                cursor.writerow([roomslot.day, roomslot.time, roomslot.room, roomslot.course.name, roomslot.type])
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.course.name, roomslot.type])
 
         print "Output file generated!"
 
-write_csv(schedule)
+write_csv(b_hc["schedule"])

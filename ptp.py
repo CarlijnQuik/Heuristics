@@ -39,7 +39,7 @@ def basic_hillclimber(schedule, courses, desired_score):
     new_schedule = schedule
     #for i in range(10):
     while score_schedule < desired_score:
-        print "new round, new chances"
+        # print "new round, new chances"
         old_score = score.calculate(new_schedule, courses)
 
         # create random swap indexes
