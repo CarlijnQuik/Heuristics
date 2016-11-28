@@ -1,26 +1,11 @@
-import schedule_class
+import roomslot
 import score
 import random
 import time
-import activity_class
-
-TYPE_LECTURE = 'lecture'
-TYPE_SEMINAR = 'seminar'
-TYPE_PRACTICUM = 'practicum'
+import activity
 
 def alg(students, courses, rooms, schedule):
 
-    find_empty(schedule)
-    for course in courses:
-
-        for i in range(int(course.q_lecture)):
-            schedule[find_empty(schedule)].activity = activity_class.Activity(course, TYPE_LECTURE)
-
-        for i in range(int(course.q_seminar)):
-            schedule[find_empty(schedule)].activity = activity_class.Activity(course, TYPE_SEMINAR)
-
-        for i in range(int(course.q_practicum)):
-            schedule[find_empty(schedule)].activity = activity_class.Activity(course, TYPE_PRACTICUM)
 
     return schedule
 
@@ -34,7 +19,7 @@ def find_empty(schedule, max_size = 0):
 #
 # Track recent score steps, stop if nothing changed much!
 #
-def basic_hillclimber(schedule, courses, desired_score):
+def random_hillclimber(schedule, courses, desired_score):
     # to keep track of running time
     start_time = time.time()
     # calculate starting score of schedule

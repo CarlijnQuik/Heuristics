@@ -1,7 +1,18 @@
 # import libraries and other files
 
 import load as loader
-import ptp, visual, csv
+import csv
+
+def write_csv(schedule):
+    with open("output_files/schedule2.csv", "wb") as csvfile:
+        cursor = csv.writer(csvfile)
+
+        for i, roomslot in enumerate(schedule):
+            if roomslot.activity and roomslot.activity.course:
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type])
+
+        print "Output file generated!"
+
 
 debug = True
 if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
@@ -28,35 +39,20 @@ else:
     rooms = loader.load_rooms(room_file)
 
 
-schedule = loader.load_schedule(rooms)
+schedule = loader.create_schedule(rooms)
+# Fill the schedule with all courses
+schedule = loader.fill_schedule(schedule, courses)
+
+write_csv(schedule)
 
 print '\n\tDONE LOADING!\n'
 
-#
-#
-#   Put all loaded information into the algorithm
-#
-
-# fill schedule randomly with alg
-schedule_by_alg =ptp.alg(students, courses, rooms, schedule)
-# test voor basic hillclimber algorithm
-# print "HILLCLIMBER ELEMENTS"
-b_hc = ptp.basic_hillclimber(schedule_by_alg, courses, 900)
-
 
 #
+# Random swap two activities
+
+# random_hillclimber_schedule = ptp.random_hillclimber(schedule, courses, 900)
+# write_csv(random_hillclimber_schedule["schedule"])
+
 #
-#   Quick output function to get an easy schedule overview
-#
-
-def write_csv(schedule):
-    with open("output_files/schedule2.csv", "wb") as csvfile:
-        cursor = csv.writer(csvfile)
-
-        for i, roomslot in enumerate(schedule):
-            if roomslot.course:
-                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.course.name, roomslot.type])
-
-        print "Output file generated!"
-
-write_csv(b_hc["schedule"])
+# Use

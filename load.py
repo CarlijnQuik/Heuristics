@@ -6,9 +6,16 @@
 # vakken per key value met meerdere waardes.
 # key value where key is studentnumber and value is rest
 
-import schedule_elements_class as obj
-import schedule_class
+import elements as obj
+import roomslot
 import csv
+import activity
+import ptp
+import math
+
+TYPE_LECTURE = 'lecture'
+TYPE_SEMINAR = 'seminar'
+TYPE_PRACTICUM = 'practicum'
 
 def load_students(student_file):
 
@@ -81,7 +88,7 @@ def load_rooms(room_file):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
-def load_schedule(room_list):
+def create_schedule(room_list):
     room_slots = []
 
     days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
@@ -91,12 +98,36 @@ def load_schedule(room_list):
         room_object = room_list[room]
         for day in days:
             if room == 'C0.110':
-                room_slots.append(schedule_class.Roomslot(room_object, day, '1700'))
+                room_slots.append(roomslot.Roomslot(room_object, day, '1700'))
 
             for time in times:
-                room_slots.append(schedule_class.Roomslot(room_object, day, time.zfill(4)))
+                room_slots.append(roomslot.Roomslot(room_object, day, time.zfill(4)))
 
     return room_slots
+
+def fill_schedule(schedule, courses):
+
+    for course in courses:
+
+        for i in range(int(course.q_lecture)):
+            empty_slot = ptp.find_empty(schedule)
+            schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
+
+        for i in range(int(course.q_seminar)):
+            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
+
+            for j in range(int(split)):
+                empty_slot = ptp.find_empty(schedule)
+                schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
+
+        for i in range(int(course.q_practicum)):
+            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
+
+            for j in range(int(split)):
+                empty_slot = ptp.find_empty(schedule)
+                schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
+
+    return schedule
 
 
 def validate_input_file(file_location):
