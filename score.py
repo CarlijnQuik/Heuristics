@@ -146,13 +146,13 @@ def check_day_duplicate(schedule):
                 # Go over all other roomslots for that one roomslot
                 for j, roomslot2 in enumerate(schedule):
                     # If not the same course or empty course
-                    if i is not j and roomslot2.course:
+                    if i is not j and roomslot2.activity:
 
                             # If name and day are the same, duplicate!
                             # Does this twice. First for loop will go over the second course later on too.
-                            if (roomslot.course.name == roomslot2.course.name) and (roomslot.day == roomslot2.day):
+                            if (roomslot.activity.course.name == roomslot2.activity.course.name) and (roomslot.day == roomslot2.day):
 
-                                key = roomslot.course.name + roomslot.day
+                                key = roomslot.activity.course.name + roomslot.day
 
                                 if key in conflict_list.keys():
                                     duplicate_count += 1
