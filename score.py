@@ -141,7 +141,7 @@ def check_day_duplicate(schedule):
         if roomslot.activity:
             if roomslot.activity.course:
 
-                q_total = roomslot.course.q_lecture + roomslot.course.q_practicum + roomslot.course.q_seminar
+                q_total = roomslot.activity.course.q_lecture + roomslot.activity.course.q_practicum + roomslot.activity.course.q_seminar
 
                 # Go over all other roomslots for that one roomslot
                 for j, roomslot2 in enumerate(schedule):
