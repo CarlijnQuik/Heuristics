@@ -116,6 +116,7 @@ def fill_schedule(schedule, courses):
         for i in range(int(course.q_seminar)):
             split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
 
+
             for j in range(int(split)):
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
