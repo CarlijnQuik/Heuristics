@@ -3,6 +3,7 @@
 import load as loader
 import csv
 import ptp
+import guided_hillclimber
 
 def write_csv(schedule):
     with open("output_files/schedule2.csv", "wb") as csvfile:
@@ -52,8 +53,9 @@ print '\n\tDONE LOADING!\n'
 #
 # Random swap two activities
 
-# random_hillclimber_schedule = ptp.random_hillclimber(schedule, courses, 900)
+#random_hillclimber_schedule = ptp.random_hillclimber(schedule, courses, -2000)
+guided_hillclimber = guided_hillclimber.guided_hillclimber(schedule, courses, -2000)
+
+
 # write_csv(random_hillclimber_schedule["schedule"])
 
-#
-# Use
