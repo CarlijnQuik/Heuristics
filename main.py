@@ -5,6 +5,7 @@ import csv
 import ptp
 import guided_hillclimber
 import score
+import matplotlib.pyplot as plt
 
 def write_csv(schedule):
     with open("output_files/schedule2.csv", "wb") as csvfile:
@@ -47,10 +48,20 @@ schedule = loader.create_schedule(rooms)
 #schedule = loader.fill_schedule(schedule, courses)
 
 # Fill the schedule with directed roomfiller
-schedule = loader.directed_fill_schedule(schedule, courses)
-score.calculate(schedule, courses)
+#schedule = loader.directed_fill_schedule(schedule, courses)
+#schedule = loader.random_fill_schedule(schedule, courses)
+#score.calculate(schedule, courses)
 
-write_csv(schedule)
+
+
+# create random schedules, plot their scores, returns list of scores
+srs = ptp.scores_random_schedules(schedule, courses, 1000)
+
+
+
+#write_csv(schedule)
+
+
 
 print '\n\tDONE LOADING!\n'
 
@@ -58,7 +69,7 @@ print '\n\tDONE LOADING!\n'
 #
 # Random swap two activities
 
-#random_hillclimber_schedule = ptp.random_hillclimber(schedule, courses, -2000)
+#random_hillclimber_schedule = ptp.random_hillclimber(schedule, courses, -1500)
 #guided_hillclimber = guided_hillclimber.guided_hillclimber(schedule, courses, -2000)
 #random_simulated_annealer = ptp.random_simulated_annealer(schedule, courses, -2000)
 
