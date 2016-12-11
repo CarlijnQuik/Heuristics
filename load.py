@@ -106,7 +106,6 @@ def create_schedule(room_list):
     return room_slots
 
 def fill_schedule(schedule, courses):
-
     for course in courses:
 
         for i in range(int(course.q_lecture)):
@@ -128,6 +127,56 @@ def fill_schedule(schedule, courses):
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
 
+    # fill empty_slot slots with empty activities
+    while ptp.find_empty(schedule):
+        empty_slot = ptp.find_empty(schedule)
+        schedule[empty_slot].activity = activity.Activity(None, "None")
+    return schedule
+
+# fills the schedule with the priority of scheduling the course activities on different days
+def directed_fill_schedule(schedule, courses):
+    # days of the week to which a counter can refer
+    weekdays = ["monday","tuesday","wednesday","thursday","friday"]
+    for course in courses:
+        day_counter = 0
+        # check total actitivities
+        total_activities = course.q_lecture + course.q_seminar + course.q_practicum
+        # increases basic spread for courses with 2 courses
+        if total_activities < 3:
+            counter_add = 2
+            day_counter = 1
+        else:
+            counter_add = 1
+        # schedules the activities of the course
+        for i in range(course.q_lecture):
+            # find empty place in a day in schedule
+            empty_schedule_index = ptp.find_empty(schedule, 0, weekdays[day_counter])
+            # if not found, find first empty space in schedule
+            if empty_schedule_index == None:
+                empty_schedule_index = ptp.find_empty(schedule)
+            schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_LECTURE)
+            # increase day_counter for next activity
+            day_counter += counter_add
+        for i in range(course.q_seminar):
+            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
+            for j in range(int(split)):
+                empty_schedule_index = ptp.find_empty(schedule, 0, weekdays[day_counter])
+                if empty_schedule_index == None:
+                    empty_schedule_index = ptp.find_empty(schedule)
+                schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_SEMINAR)
+            day_counter += counter_add
+        for i in range(course.q_practicum):
+            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
+            for j in range(int(split)):
+                empty_schedule_index = ptp.find_empty(schedule, 0, weekdays[day_counter])
+                if empty_schedule_index == None:
+                    empty_schedule_index = ptp.find_empty(schedule)
+                schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_PRACTICUM)
+            day_counter += counter_add
+    # fill all empty slots with "None" activities
+    while ptp.find_empty(schedule):
+        empty_slot = ptp.find_empty(schedule)
+        schedule[empty_slot].activity = activity.Activity(None, "None")
     return schedule
 
 
@@ -138,4 +187,3 @@ def validate_input_file(file_location):
         file_location = "input_files/" + file_location
 
     return file_location
-
