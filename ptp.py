@@ -15,10 +15,15 @@ def alg(students, courses, rooms, schedule):
 
 # TODO: Add find empty for specific day/room/time (?)
 # Does find empty work probably? None is returned when a schedule in a algorithm is placed.
-def find_empty(schedule, max_size = 0):
+def find_empty(schedule, max_size = 0, day = None):
     for i, roomslot in enumerate(schedule):
-        if roomslot.activity is None:
+        if day != None:
+            if roomslot.day == day:
+                if roomslot.activity is None:
+                    return i
+        elif roomslot.activity is None:
             return i
+    return None
 
 # maybe a store function that it remembers what has already been added if the same schedule is checked again
 def find_empty_random(schedule, max_size = 0):
