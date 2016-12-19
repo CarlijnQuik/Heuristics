@@ -131,6 +131,15 @@ def fill_schedule(schedule, courses):
     return schedule
 
 
+def fill_student_groups(schedule, overflow_percentage):
+    overflow = overflow_percentage / 100
+    print overflow
+
+
+
+    return schedule
+
+
 def validate_input_file(file_location):
     if file_location[-4:] != '.csv':
         file_location = file_location + '.csv'

@@ -1,6 +1,8 @@
 VALID_SCHEDULE = 1000
 INVALID_SCHEDULE = 0
 
+from collections import Counter
+
 def calculate(schedule, courses):
     print "Calculating score.."
     score = 0
@@ -42,24 +44,21 @@ def calculate(schedule, courses):
 
 #
 #   Check if all course lessons are in the schedule
-#   CORRECT
+#   DONE
 #
 def check_valid_schedule(schedule, courses):
     count = 0
-    q_total = 0
-
+    total = 0
 
     for course in courses:
-        q_total += course.q_lecture
-        q_total += course.q_seminar
-        q_total += course.q_practicum
+        total += course.q_total
 
-        for i, roomslot in enumerate(schedule):
-            if roomslot.activity:
-                if course is roomslot.activity.course:
-                    count += 1
+    for i, roomslot in enumerate(schedule):
+        if roomslot.activity:
+            if roomslot.activity.course in courses:
+                count += 1
 
-    if q_total == count:
+    if total == count:
         #print "\tValid schedule!"
         return VALID_SCHEDULE
     else:
@@ -67,7 +66,8 @@ def check_valid_schedule(schedule, courses):
         return INVALID_SCHEDULE
 
 #
-# Checks the 'special' timeslot C0.110 @ 1700
+#   Checks the 'special' timeslot C0.110 @ 1700
+#   DONE
 #
 def check_special_timeslot(schedule):
     score = 0
@@ -84,24 +84,72 @@ def check_special_timeslot(schedule):
     return conflict_list, score
 
 
-# TODO: Finish this function
+#
+#   Checks the spreading across the week for every course
+#   TODO: DEBUG
+#
 def check_spreading(schedule, courses):
+
+    SPREADING_1 = ["monday", "thursday"]
+    SPREADING_2 = ["tuesday", "friday"]
+
+    SPREADING_3 = ["monday", "wednesday", "friday"]
+    SPREADING_4 = ["monday", "tuesday", "thursday", "friday"]
+
     score = 0
+    course_spreadings = {}
+
+    for i, roomslot in enumerate(schedule):
+        if roomslot.activity:
+            if roomslot.activity.group:
+                key = roomslot.activity.course.name + roomslot.activity.group
+            else:
+                key = roomslot.activity.course.name
+
+            if key in course_spreadings.keys():
+                # KEY EXISTS!
+                course_spreadings[key].append(roomslot.day)
+            else:
+                # KEY DOES NOT EXIST!
+                course_spreadings[key] = [roomslot.day]
 
     for course in courses:
-        q_total = course.q_lecture
-        q_total += course.q_seminar
-        q_total += course.q_practicum
+        if len(course.groups) > 0:
+            for group in course.groups:
+                key = course.name + group
+                if course.q_total == 2:
+                    if course_spreadings[key] == SPREADING_1 or course_spreadings[key] == SPREADING_2:
+                        # SPREADING IS OKAY
+                        score += (20 / len(course.groups))
 
-        index_list = []
+                elif course.q_total == 3:
+                    if course_spreadings[key] == SPREADING_3:
+                        score += (20 / len(course.groups))
+                        # SPREADING IS OKAY
 
-        for i, roomslot in enumerate(schedule):
-            if roomslot.activity:
-                if roomslot.activity.course:
-                    if (course.name == roomslot.activity.course.name):
-                        index_list.append(i)
+                elif course.q_total == 4:
+                    if course_spreadings[key] == SPREADING_4:
+                        score += (20 / len(course.groups))
+                        # SPREADING IS OKAY
 
-    return 0
+        else:
+            key = course.name
+            if course.q_total == 2:
+                if course_spreadings[key] == SPREADING_1 or course_spreadings[key] == SPREADING_2:
+                    # SPREADING IS OKAY
+                    score += 20
+
+            elif course.q_total == 3:
+                if course_spreadings[key] == SPREADING_3:
+                    score += 20
+                    # SPREADING IS OKAY
+
+            elif course.q_total == 4:
+                if course_spreadings[key] == SPREADING_4:
+                    score += 20
+                    # SPREADING IS OKAY
+
+    return score
 
 
 #
@@ -127,44 +175,34 @@ def check_small_room(schedule):
 
 #
 # Check if and how many of the same course are given on day x
-# TODO: Get relevant info first
+# TODO: DEBUG
 #
 def check_day_duplicate(schedule):
-    conflict_list = {}
-    score = 0
+    conflict_list = []
 
+    day_activity_list = {}
+    dup = 0
     # Go over all roomslots
-    # TODO: Filter on day, don't go through schedule second time.
     for i, roomslot in enumerate(schedule):
-        duplicate_count = 0
+        if roomslot.day in day_activity_list.keys():
+            # Day has entry
+            day_activity_list[roomslot.day].append(roomslot.activity)
+        else:
+            # Day no entry
+            day_activity_list[roomslot.day] = [roomslot.activity]
 
-        if roomslot.activity:
-            if roomslot.activity.course:
+    if len(day_activity_list) != len(set(day_activity_list)):
+        for day_activity in set(day_activity_list):
+            print day_activity.course
+            for other_day in day_activity_list:
+                if (day_activity != other_day):
+                    if (day_activity.type != other_day.type) and (day_activity.course.name == other_day.course.name) and not (day_activity.type == other_day.type):
+                        # Not same type but same course.
+                        dup += 1
+                        conflict_list.append(day_activity)
 
-                q_total = roomslot.activity.course.q_lecture + roomslot.activity.course.q_practicum + roomslot.activity.course.q_seminar
 
-                # Go over all other roomslots for that one roomslot
-                for j, roomslot2 in enumerate(schedule):
-                    # If not the same course or empty course
-                    if i is not j and roomslot2.activity:
-
-                            # If name and day are the same, duplicate!
-                            # Does this twice. First for loop will go over the second course later on too.
-                            if roomslot2.activity.course:
-                                if (roomslot.activity.course.name == roomslot2.activity.course.name) and (roomslot.day == roomslot2.day):
-
-                                    key = roomslot.activity.course.name + roomslot.day
-
-                                    if key in conflict_list.keys():
-                                        duplicate_count += 1
-                                        if j not in conflict_list[key]:
-                                            conflict_list[key].append(j)
-                                    else:
-                                        conflict_list[key] = [i, j]
-
-    for key in conflict_list:
-        score += (len(conflict_list[key]) - 1) * 10
-
+    score = dup * 10
 
 
     # print "\tFound", len(conflict_list), "day duplicates!"
@@ -172,42 +210,31 @@ def check_day_duplicate(schedule):
 
 #
 # Check for hour conflicts per student in the schedule
-# CORRECT
+# TODO: DEBUG
 #
 def check_multiple_activities(schedule):
-    conflict_list = {}
-    student_conflict_count_list = []
+    conflict_list = []
+    daytime_activity_list = {}
 
-    # For every Roomslot, check all other roomslots
     for i, roomslot in enumerate(schedule):
         if roomslot.activity:
-            if roomslot.activity.course:
-                student_conflict_count = 0
+            key = roomslot.day + roomslot.time
+            if key in daytime_activity_list.keys():
+                # Day has entry
+                print "Has entry:" + key
+                daytime_activity_list[key].append(roomslot.activity)
+            else:
+                # Day no entry
+                print "New entry:" + key
+                daytime_activity_list[key] = [roomslot.activity]
 
-                # Can optimize by starting this for loop from element I
-                for j, roomslot2 in enumerate(schedule):
+    for daytime in daytime_activity_list:
 
-                    # Don't compare the same roomslot
-                    if i is not j and roomslot2.activity.course:
-                        if roomslot.time == roomslot2.time and roomslot.day == roomslot2.day:
+        for activity in daytime_activity_list[daytime]:
+            if activity.students:
+                print [activity for student, v in Counter(activity.students).iteritems() if v > 1]
+                conflict_list.append(activity for student, v in Counter(activity.students).iteritems() if v > 1)
 
-                            # Go over studentlist to see if conflicts in this hour
-                            for student_id in roomslot.activity.course.student_list:
-                                student = roomslot.activity.course.student_list[student_id]
-                                if student_id in roomslot2.activity.course.student_list.keys():
-
-                                    student_conflict_count += 1
-                                    # Add to list if conflicted
-                                    key = student_id + roomslot.day + roomslot.time
-                                    conflict_list[key] = {student_id: student, 'course1': i, 'course2': j}
-
-                student_conflict_count_list.append(student_conflict_count);
-
-    # print "\tFound", len(conflict_list), "student conflicts!"
-    return conflict_list, len(conflict_list), student_conflict_count_list
-
-def get_day_distance(index_list):
-    holder = None
-    week = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
+    return conflict_list, len(conflict_list)
 
 

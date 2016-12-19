@@ -43,6 +43,8 @@ class Course(object):
         self.q_practicum = int(q_practicum)
         self.practicum_max_students = int(practicum_max_students)
         self.student_list = {}
+        self.groups = []
+        self.q_total = int(q_lecture + q_seminar + q_practicum)
 
     def set_students(self, student_list):
         try:
