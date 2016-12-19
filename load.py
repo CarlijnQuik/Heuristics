@@ -106,36 +106,36 @@ def create_schedule(room_list):
     return room_slots
 
 def fill_schedule(schedule, courses):
+    # TODO: Global overflow_percentage
+    overflow_percentage = 110
 
     for course in courses:
+
+        print course.name
 
         for i in range(int(course.q_lecture)):
             empty_slot = ptp.find_empty(schedule)
             schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
+            schedule[empty_slot].activity.students = course.student_list
 
         for i in range(int(course.q_seminar)):
-            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
-
+            student_overflow = math.ceil(course.seminar_max_students * (float(overflow_percentage) / 100))
+            split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
+                print "Block:", j * student_overflow
 
         for i in range(int(course.q_practicum)):
-            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
+
+            student_overflow = math.ceil(course.practicum_max_students * (float(overflow_percentage) / 100))
+            split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
-
-    return schedule
-
-
-def fill_student_groups(schedule, overflow_percentage):
-    overflow = overflow_percentage / 100
-    print overflow
-
-
+                print "Block:", j * student_overflow
 
     return schedule
 

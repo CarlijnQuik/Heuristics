@@ -178,35 +178,36 @@ def check_small_room(schedule):
 # TODO: DEBUG
 #
 def check_day_duplicate(schedule):
+    score = 0
     conflict_list = []
 
     day_activity_list = {}
     dup = 0
     # Go over all roomslots
     for i, roomslot in enumerate(schedule):
-        if roomslot.day in day_activity_list.keys():
-            # Day has entry
-            day_activity_list[roomslot.day].append(roomslot.activity)
-        else:
-            # Day no entry
-            day_activity_list[roomslot.day] = [roomslot.activity]
-
-    if len(day_activity_list) != len(set(day_activity_list)):
-        for day_activity in set(day_activity_list):
-            print day_activity.course
-            for other_day in day_activity_list:
-                if (day_activity != other_day):
-                    if (day_activity.type != other_day.type) and (day_activity.course.name == other_day.course.name) and not (day_activity.type == other_day.type):
-                        # Not same type but same course.
-                        dup += 1
-                        conflict_list.append(day_activity)
+        if roomslot.activity:
+            if roomslot.day in day_activity_list.keys():
+                # Day has entry
+                day_activity_list[roomslot.day].append({"key": roomslot.activity.course.name + roomslot.activity.type, "index": i})
+            else:
+                # Day no entry
+                day_activity_list[roomslot.day] = [{"key": roomslot.activity.course.name + roomslot.activity.type, "index": i}]
 
 
-    score = dup * 10
+    #
+    for i in day_activity_list:
+        day_activities = day_activity_list[i]
+
+        key_list = []
+        for item in day_activities:
+            if item['key'] in key_list:
+                conflict_list.append(item['index'])
+            else:
+                key_list.append(item['key'])
 
 
     # print "\tFound", len(conflict_list), "day duplicates!"
-    return conflict_list, score
+    return conflict_list, len(conflict_list)
 
 #
 # Check for hour conflicts per student in the schedule
@@ -221,18 +222,20 @@ def check_multiple_activities(schedule):
             key = roomslot.day + roomslot.time
             if key in daytime_activity_list.keys():
                 # Day has entry
-                print "Has entry:" + key
+                # print "Has entry:" + key
                 daytime_activity_list[key].append(roomslot.activity)
             else:
                 # Day no entry
-                print "New entry:" + key
+                # print "New entry:" + key
                 daytime_activity_list[key] = [roomslot.activity]
 
     for daytime in daytime_activity_list:
 
         for activity in daytime_activity_list[daytime]:
             if activity.students:
-                print [activity for student, v in Counter(activity.students).iteritems() if v > 1]
+
+                # print "\n", daytime, " + ", activity.course.name
+                # print [student for student, v in Counter(activity.students).iteritems() if v > 1]
                 conflict_list.append(activity for student, v in Counter(activity.students).iteritems() if v > 1)
 
     return conflict_list, len(conflict_list)
