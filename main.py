@@ -53,8 +53,6 @@ write_csv(schedule)
 
 print '\n\tDONE LOADING!\n'
 
-guided_hill.
-
 #
 # Random swap two activities
 
