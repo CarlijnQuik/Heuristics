@@ -248,6 +248,4 @@ def check_multiple_activities(schedule):
                 else:
                     student_list.append(student)
 
-        print "CL", len(conflict_list)
-
     return conflict_list, len(conflict_list)
