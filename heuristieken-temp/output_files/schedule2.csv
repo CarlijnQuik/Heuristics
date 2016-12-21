@@ -1,0 +1,129 @@
+monday,0900,B0.201,Algoritmen en complexiteit,lecture
+monday,1100,B0.201,Autonomous Agents 2,lecture
+monday,1300,B0.201,Bioinformatica,lecture
+monday,1500,B0.201,Collectieve Intelligentie,lecture
+tuesday,0900,B0.201,Advanced Heuristics,lecture
+tuesday,1100,B0.201,Algoritmen en complexiteit,seminar
+tuesday,1300,B0.201,Algoritmen en complexiteit,seminar
+tuesday,1500,B0.201,Analysemethoden en -technieken,lecture
+wednesday,0900,B0.201,Algoritmen en complexiteit,practicum
+wednesday,1100,B0.201,Algoritmen en complexiteit,practicum
+wednesday,1300,B0.201,Autonomous Agents 2,seminar
+wednesday,1500,B0.201,Autonomous Agents 2,seminar
+thursday,0900,B0.201,Advanced Heuristics,practicum
+thursday,1100,B0.201,Advanced Heuristics,practicum
+thursday,1300,B0.201,Architectuur en computerorganisatie,lecture
+thursday,1500,B0.201,Autonomous Agents 2,practicum
+friday,0900,B0.201,Bioinformatica,practicum
+friday,1100,B0.201,Bioinformatica,practicum
+friday,1300,B0.201,Bioinformatica,practicum
+friday,1500,B0.201,Collectieve Intelligentie,practicum
+monday,0900,A1.08,Compilerbouw,lecture
+monday,1100,A1.08,Data Mining,lecture
+monday,1300,A1.08,Informatie- en organisatieontwerp,lecture
+monday,1500,A1.08,Interactie-ontwerp,lecture
+tuesday,0900,A1.08,Architectuur en computerorganisatie,lecture
+tuesday,1100,A1.08,Autonomous Agents 2,lecture
+tuesday,1300,A1.08,Bioinformatica,lecture
+tuesday,1500,A1.08,Calculus 2,lecture
+wednesday,0900,A1.08,Autonomous Agents 2,seminar
+wednesday,1100,A1.08,Bioinformatica,lecture
+wednesday,1300,A1.08,Collectieve Intelligentie,lecture
+wednesday,1500,A1.08,Compilerbouw,seminar
+thursday,0900,A1.08,Autonomous Agents 2,practicum
+thursday,1100,A1.08,Autonomous Agents 2,practicum
+thursday,1300,A1.08,Bioinformatica,seminar
+thursday,1500,A1.08,Bioinformatica,seminar
+friday,0900,A1.08,Collectieve Intelligentie,practicum
+friday,1100,A1.08,Collectieve Intelligentie,practicum
+friday,1300,A1.08,Collectieve Intelligentie,practicum
+friday,1500,A1.08,Kansrekenen 2,lecture
+monday,1700,C0.110,Lineaire Algebra,lecture
+monday,0900,C0.110,Machine Learning,lecture
+monday,1100,C0.110,Moderne Databases,lecture
+monday,1300,C0.110,Programmeren in Java 2,practicum
+monday,1500,C0.110,Programmeren in Java 2,practicum
+tuesday,1700,C0.110,Collectieve Intelligentie,lecture
+tuesday,0900,C0.110,Compilerbouw,lecture
+tuesday,1100,C0.110,Compilerbouw practicum,practicum
+tuesday,1300,C0.110,Compilerbouw practicum,practicum
+tuesday,1500,C0.110,Compilerbouw practicum,practicum
+wednesday,1700,C0.110,Compilerbouw,seminar
+wednesday,0900,C0.110,Data Mining,seminar
+wednesday,1100,C0.110,Data Mining,seminar
+wednesday,1300,C0.110,Data Mining,seminar
+wednesday,1500,C0.110,Informatie- en organisatieontwerp,seminar
+thursday,1700,C0.110,Bioinformatica,seminar
+thursday,0900,C0.110,Calculus 2,seminar
+thursday,1100,C0.110,Calculus 2,seminar
+thursday,1300,C0.110,Calculus 2,seminar
+thursday,1500,C0.110,Collectieve Intelligentie,seminar
+friday,1700,C0.110,Programmeren in Java 2,practicum
+friday,0900,C0.110,Programmeren in Java 2,practicum
+friday,1100,C0.110,Programmeren in Java 2,practicum
+friday,1300,C0.110,Programmeren in Java 2,practicum
+friday,1500,C0.110,Project Genetic Algorithms,practicum
+monday,0900,A1.04,Project Genetic Algorithms,practicum
+monday,1100,A1.04,Project Genetic Algorithms,practicum
+monday,1300,A1.04,Project Numerical Recipes,practicum
+monday,1500,A1.04,Project Numerical Recipes,practicum
+tuesday,0900,A1.04,Data Mining,lecture
+tuesday,1100,A1.04,Databases 2,lecture
+tuesday,1300,A1.04,Heuristieken 1,lecture
+tuesday,1500,A1.04,Heuristieken 2,lecture
+wednesday,0900,A1.04,Informatie- en organisatieontwerp,seminar
+wednesday,1100,A1.04,Moderne Databases,practicum
+wednesday,1300,A1.04,Moderne Databases,practicum
+wednesday,1500,A1.04,Moderne Databases,practicum
+thursday,0900,A1.04,Collectieve Intelligentie,seminar
+thursday,1100,A1.04,Collectieve Intelligentie,seminar
+thursday,1300,A1.04,Collectieve Intelligentie,seminar
+thursday,1500,A1.04,Compilerbouw,practicum
+friday,0900,A1.04,Project Numerical Recipes,practicum
+friday,1100,A1.04,Reflectie op de digitale cultuur,lecture
+friday,1300,A1.04,Software engineering,seminar
+friday,1500,A1.04,Software engineering,seminar
+monday,0900,A1.06,Reflectie op de digitale cultuur,lecture
+monday,1100,A1.06,Software engineering,lecture
+monday,1300,A1.06,Technology for games,lecture
+monday,1500,A1.06,Technology for games,lecture
+tuesday,0900,A1.06,Informatie- en organisatieontwerp,lecture
+tuesday,1100,A1.06,Interactie-ontwerp,lecture
+tuesday,1300,A1.06,Kansrekenen 2,lecture
+tuesday,1500,A1.06,Lineaire Algebra,lecture
+wednesday,0900,A1.06,Reflectie op de digitale cultuur,seminar
+wednesday,1100,A1.06,Reflectie op de digitale cultuur,seminar
+wednesday,1300,A1.06,Reflectie op de digitale cultuur,seminar
+wednesday,1500,A1.06,Software engineering,practicum
+thursday,0900,A1.06,Compilerbouw,practicum
+thursday,1100,A1.06,Data Mining,practicum
+thursday,1300,A1.06,Data Mining,practicum
+thursday,1500,A1.06,Data Mining,practicum
+friday,0900,A1.06,Webprogrammeren en databases,lecture
+friday,1100,A1.06,Webprogrammeren en databases,practicum
+friday,1300,A1.06,Webprogrammeren en databases,practicum
+friday,1500,A1.06,ZoekenSturenBewegen,practicum
+monday,0900,C1.112,Webprogrammeren en databases,lecture
+monday,1100,C1.112,ZoekenSturenBewegen,practicum
+monday,1300,C1.112,ZoekenSturenBewegen,practicum
+tuesday,0900,C1.112,Machine Learning,lecture
+tuesday,1100,C1.112,Moderne Databases,seminar
+tuesday,1300,C1.112,Moderne Databases,seminar
+tuesday,1500,C1.112,Moderne Databases,seminar
+wednesday,0900,C1.112,Software engineering,practicum
+wednesday,1100,C1.112,Technology for games,seminar
+wednesday,1300,C1.112,Technology for games,seminar
+wednesday,1500,C1.112,Webprogrammeren en databases,seminar
+thursday,0900,C1.112,Databases 2,seminar
+thursday,1100,C1.112,Databases 2,seminar
+thursday,1300,C1.112,Heuristieken 1,seminar
+thursday,1500,C1.112,Heuristieken 1,seminar
+tuesday,0900,A1.10,Netwerken en systeembeveiliging,practicum
+tuesday,1100,A1.10,Netwerken en systeembeveiliging,practicum
+tuesday,1300,A1.10,Netwerken en systeembeveiliging,practicum
+tuesday,1500,A1.10,Netwerken en systeembeveiliging,practicum
+wednesday,0900,A1.10,Webprogrammeren en databases,seminar
+thursday,0900,A1.10,Heuristieken 2,seminar
+thursday,1100,A1.10,Heuristieken 2,seminar
+thursday,1300,A1.10,Informatie- en organisatieontwerp,practicum
+thursday,1500,A1.10,Informatie- en organisatieontwerp,practicum
