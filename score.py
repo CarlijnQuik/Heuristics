@@ -39,12 +39,16 @@ def check_valid_schedule(schedule, courses):
     total = 0
 
     for course in courses:
-        total += course.q_total
+        if len(course.groups) > 0:
+            total += course.q_practicum * len(course.groups)
+            total += course.q_seminar * len(course.groups)
+            total += course.q_lecture
+        else:
+            total += course.q_total
 
     for i, roomslot in enumerate(schedule):
         if roomslot.activity:
-            if roomslot.activity.course in courses:
-                count += 1
+            count += 1
 
     if total == count:
         return VALID_SCHEDULE
@@ -113,9 +117,6 @@ def check_spreading(schedule, courses):
                     else:
                         course_spreadings[key] = [roomslot.day]
 
-    for course_spreading in course_spreadings:
-        print course_spreading, course_spreadings[course_spreading]
-
     for course in courses:
         if len(course.groups) > 0:
             for group in course.groups:
@@ -141,16 +142,16 @@ def check_spreading(schedule, courses):
             if course.q_total == 2:
                 if course_spreadings[key] == SPREADING_1 or course_spreadings[key] == SPREADING_2:
                     # SPREADING IS OKAY
-                    score += (20 / len(course.groups))
+                    score += 20
 
             elif course.q_total == 3:
                 if course_spreadings[key] == SPREADING_3:
-                    score += (20 / len(course.groups))
+                    score += 20
                     # SPREADING IS OKAY
 
             elif course.q_total == 4:
                 if course_spreadings[key] == SPREADING_4:
-                    score += (20 / len(course.groups))
+                    score += 20
                     # SPREADING IS OKAY
 
     return score
@@ -236,6 +237,7 @@ def check_multiple_activities(schedule):
 
         for activity in daytime_activity_list[daytime]:
             if activity.students:
+
 
                 conflict_list.append(activity for student, v in Counter(activity.students).iteritems() if v > 1)
 

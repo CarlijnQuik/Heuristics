@@ -2,9 +2,13 @@
 
 import load as loader
 import csv
-import score
 import ptp
-import guided_hillclimber as guided_hill
+import score
+import matplotlib.pyplot as plt
+import math
+import simulated_annealer
+import fireworks
+import hillclimber
 
 def write_csv(schedule):
     with open("output_files/schedule2.csv", "wb") as csvfile:
@@ -46,17 +50,37 @@ schedule = loader.create_schedule(rooms)
 # Fill the schedule with all courses
 schedule = loader.fill_schedule(schedule, courses)
 
+# Fill the schedule with directed roomfiller
+#schedule = loader.directed_fill_schedule(schedule, courses)
+#schedule = loader.random_fill_schedule(schedule, courses)
+#score.calculate(schedule, courses)
+
+
+
+# create random schedules, plot their scores, returns list of scores
+#scores_random_schedules = ptp.scores_random_schedules(schedule, courses, 1000)
+
+
+# schedule = simulated_annealer.random_simulated_annealer(schedule, courses, -1500, 1000)
 score.calculate(schedule, courses)
 
+#write_csv(schedule)
 
-write_csv(schedule)
+
 
 print '\n\tDONE LOADING!\n'
+
 
 #
 # Random swap two activities
 
-# random_hillclimber_schedule = ptp.random_hillclimber(schedule, courses, 900)
+random_hillclimber_schedule = hillclimber.random_hillclimber(schedule, courses, 1400, 4)
+#guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 0)
+#random_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, -600, 1000, 20)
+#guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, -1500, 1000, 20)
+#random_fireworks = fireworks.random_fireworks(schedule, courses, 0, 5)
+
+
 # write_csv(random_hillclimber_schedule["schedule"])
 
 #
