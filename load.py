@@ -135,8 +135,6 @@ def fill_schedule(schedule, courses):
 
     for course in courses:
 
-        print course.name
-
         for i in range(int(course.q_lecture)):
             empty_slot = ptp.find_empty(schedule)
             schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
@@ -233,8 +231,6 @@ def fill_schedule(schedule, courses):
                     # print "LISTLENGTH", len(course.student_list)
                     # print schedule[empty_slot].activity.students
                     # print len(schedule[empty_slot].activity.students)
-
-            print course.groups
 
 
     return schedule

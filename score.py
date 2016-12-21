@@ -228,17 +228,26 @@ def check_multiple_activities(schedule):
             key = roomslot.day + roomslot.time
             if key in daytime_activity_list.keys():
                 # Day has entry
-                daytime_activity_list[key].append(roomslot.activity)
+                daytime_activity_list[key].append({"activity": roomslot.activity, "index": i})
             else:
                 # Day no entry
-                daytime_activity_list[key] = [roomslot.activity]
+                daytime_activity_list[key] = [{"activity": roomslot.activity, "index": i}]
 
     for daytime in daytime_activity_list:
+        # print daytime
+        # print daytime_activity_list[daytime]
 
-        for activity in daytime_activity_list[daytime]:
-            if activity.students:
+        print daytime
+        student_list = []
 
+        for item in daytime_activity_list[daytime]:
+            # print activity
+            for student in item['activity'].students:
+                if student in student_list:
+                    conflict_list.append(item['index'])
+                else:
+                    student_list.append(student)
 
-                conflict_list.append(activity for student, v in Counter(activity.students).iteritems() if v > 1)
+        print "CL", len(conflict_list)
 
     return conflict_list, len(conflict_list)

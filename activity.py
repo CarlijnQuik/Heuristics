@@ -7,4 +7,4 @@ class Activity(object):
         self.course = course
         self.type = type
         self.group = ""
-        self.students = {}
+        self.students = []
