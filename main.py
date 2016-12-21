@@ -2,6 +2,7 @@
 
 import load as loader
 import csv
+import score
 import ptp
 
 def write_csv(schedule):
@@ -10,7 +11,7 @@ def write_csv(schedule):
 
         for i, roomslot in enumerate(schedule):
             if roomslot.activity and roomslot.activity.course:
-                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type])
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group])
 
         print "Output file generated!"
 
@@ -43,6 +44,9 @@ else:
 schedule = loader.create_schedule(rooms)
 # Fill the schedule with all courses
 schedule = loader.fill_schedule(schedule, courses)
+
+score.calculate(schedule, courses)
+
 
 write_csv(schedule)
 

@@ -42,17 +42,16 @@ class Course(object):
         self.seminar_max_students = int(seminar_max_students)
         self.q_practicum = int(q_practicum)
         self.practicum_max_students = int(practicum_max_students)
-        self.student_list = {}
+        self.student_list = []
         self.groups = []
-        self.q_total = int(q_lecture + q_seminar + q_practicum)
+        self.q_total = int(q_lecture) + int(q_seminar) + int(q_practicum)
 
     def set_students(self, student_list):
         try:
             for student in student_list:
-                student = student_list[student]
                 for i in student.subjects:
                     if i.lower() == self.name.lower():
-                        self.student_list[student.id] = student
+                        self.student_list.append(student)
 
         except:
             print 'Could not load students to subjects!'

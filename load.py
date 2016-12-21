@@ -12,15 +12,18 @@ import csv
 import activity
 import ptp
 import math
+import string
 
 TYPE_LECTURE = 'lecture'
 TYPE_SEMINAR = 'seminar'
 TYPE_PRACTICUM = 'practicum'
 
+GROUP_STRING = string.ascii_uppercase
+
 def load_students(student_file):
 
     student_file = validate_input_file(student_file)
-    student_as_object = {}
+    student_as_object = []
 
     try:
         with open(student_file, 'r') as csvfile:
@@ -33,7 +36,7 @@ def load_students(student_file):
             for student in students:
                 print '\tProcessing student #' + student[2]
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
-                student_as_object[student[2]] = new_object
+                student_as_object.append(new_object)
 
         print 'Number of students processed:', len(student_as_object), '\n'
         return student_as_object
@@ -106,170 +109,112 @@ def create_schedule(room_list):
     return room_slots
 
 def fill_schedule(schedule, courses):
+    # TODO: Global overflow_percentage
+    overflow_percentage = 110
+
     for course in courses:
+
+        print course.name
 
         for i in range(int(course.q_lecture)):
             empty_slot = ptp.find_empty(schedule)
             schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
+            schedule[empty_slot].activity.students = course.student_list
 
         for i in range(int(course.q_seminar)):
-            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
-
+            student_overflow = math.ceil(course.seminar_max_students * (float(overflow_percentage) / 100))
+            split = math.ceil(len(course.student_list) / student_overflow)
+            print "SPLIT:", split
 
             for j in range(int(split)):
+                #print "SPLIT", split
+                #print "STUDENTS", len(course.student_list)
+                #print "STUDENTOVERFLOW", student_overflow
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
 
+                last_class_count = len(course.student_list) % student_overflow
+
+                # If enough room in last class, divide even
+
+                if (int(course.q_seminar) > 0 and int(course.q_practicum) <= 0):
+                    if (last_class_count < (student_overflow - split) and last_class_count != 0):
+                        #print "LCC", last_class_count
+                        #print "IF", (student_overflow - split)
+                        group_size = math.ceil(len(course.student_list) / split)
+                        #print "LISTLENGTH", len(course.student_list)
+                        #print "GROUPSIZE", group_size
+
+                        # Try and divide the students evenly
+                        start_bound = int(group_size * j)
+                        end_bound = int(group_size * (j + 1))
+                        # print "SB", start_bound
+                        # print "EB", end_bound
+                        schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                        schedule[empty_slot].activity.group = GROUP_STRING[j]
+                        course.groups.append(GROUP_STRING[j])
+
+                        # print schedule[empty_slot].activity.students
+                        # print len(schedule[empty_slot].activity.students)
+
+                    else:
+                        start_bound = int(student_overflow * j)
+                        end_bound = int(student_overflow * (j + 1))
+                        schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                        schedule[empty_slot].activity.group = GROUP_STRING[j]
+                        course.groups.append(GROUP_STRING[j])
+
+                        # print "ELSE"
+                        # print "LISTLENGTH", len(course.student_list)
+                        # print schedule[empty_slot].activity.students
+                        # print len(schedule[empty_slot].activity.students)
+
         for i in range(int(course.q_practicum)):
-            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
+            student_overflow = math.ceil(course.practicum_max_students * (float(overflow_percentage) / 100))
+            split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
+                # print "SPLIT", split
+                # print "STUDENTS", len(course.student_list)
+                # print "STUDENTOVERFLOW", student_overflow
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
 
-    # fill empty_slot slots with empty activities
-    while ptp.find_empty(schedule) or ptp.find_empty(schedule) == 0:
-        empty_slot = ptp.find_empty(schedule)
-        schedule[empty_slot].activity = activity.Activity(None, "None")
-    return schedule
+                last_class_count = len(course.student_list) % student_overflow
 
-# fills the schedule with the priority of scheduling the course activities on different days
-#TODO still have to schedule the different groups
-def directed_fill_schedule(schedule, courses):
-    # days of the week to which a counter can refer
-    weekdays = ["monday","tuesday","wednesday","thursday","friday"]
-    for course in courses:
-        day_counter = 0
-        # check total actitivities
-        total_activities = course.q_lecture + course.q_seminar + course.q_practicum
-        # increases basic spread for courses with 2 courses
-        if total_activities < 3:
-            counter_add = 2
-            day_counter = 1
-        else:
-            counter_add = 1
-        # schedules the activities of the course
-        for i in range(course.q_lecture):
-            # find empty place in a day in schedule
-            empty_schedule_index = ptp.find_empty(schedule, course.student_list, weekdays[day_counter%5])
-            # if not found, find first empty space in schedule
-            if empty_schedule_index == None:
-                empty_schedule_index = ptp.find_empty(schedule, None, weekdays[day_counter%5])
-                if empty_schedule_index == None:
-                    empty_schedule_index = ptp.find_empty(schedule)
-            schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_LECTURE)
-            # increase day_counter for next activity
-            day_counter += counter_add
-        for i in range(course.q_seminar):
-            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
-            for j in range(int(split)):
-                empty_schedule_index = ptp.find_empty(schedule, None, weekdays[day_counter%5])
-                if empty_schedule_index == None:
-                    empty_schedule_index = ptp.find_empty(schedule, None, weekdays[day_counter%5])
-                    if empty_schedule_index == None:
-                        empty_schedule_index = ptp.find_empty(schedule)
-                schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_SEMINAR)
-            day_counter += counter_add
-        for i in range(course.q_practicum):
-            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
-            for j in range(int(split)):
-                empty_schedule_index = ptp.find_empty(schedule, None, weekdays[day_counter%5])
-                if empty_schedule_index == None:
-                    empty_schedule_index = ptp.find_empty(schedule, None, weekdays[day_counter%5])
-                    if empty_schedule_index == None:
-                        empty_schedule_index = ptp.find_empty(schedule)
-                schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_PRACTICUM)
-            day_counter += counter_add
-    # fill all empty slots with "None" activities
-    while ptp.find_empty(schedule) or ptp.find_empty(schedule) == 0:
-        empty_slot = ptp.find_empty(schedule)
-        schedule[empty_slot].activity = activity.Activity(None, "None")
-    return schedule
+                # If enough room in last class, divide even
+                if (last_class_count < (student_overflow - split) and last_class_count != 0):
+                    # print "LCC", last_class_count
+                    # print "IF", (student_overflow - split)
+                    group_size = math.ceil(len(course.student_list) / split)
+                    # print "LISTLENGTH", len(course.student_list)
+                    # print "GROUPSIZE", group_size
 
-def random_directed_fill_schedule(schedule, courses):
-    weekdays = ["monday","tuesday","wednesday","thursday","friday"]
-    for course in courses:
-        day_counter = 0
-        # check total actitivities
-        total_activities = course.q_lecture + course.q_seminar + course.q_practicum
-        # increases basic spread for courses with 2 courses
-        if total_activities < 3:
-            counter_add = 2
-            day_counter = 1
-        else:
-            counter_add = 1
-        # schedules the activities of the course
-        for i in range(course.q_lecture):
-            # find empty place in a day in schedule
-            empty_schedule_index = ptp.find_random_filler(schedule, course.student_list, weekdays[day_counter%5])
-            # if not found, find first empty space in schedule
-            if empty_schedule_index == None:
-                empty_schedule_index = ptp.find_random_filler(schedule, None, weekdays[day_counter%5])
-                if empty_schedule_index == None:
-                    empty_schedule_index = ptp.find_random_filler(schedule)
-            schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_LECTURE)
-            # increase day_counter for next activity
-            day_counter += counter_add
-        for i in range(course.q_seminar):
-            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
-            for j in range(int(split)):
-                empty_schedule_index = ptp.find_random_filler(schedule, None, weekdays[day_counter%5])
-                if empty_schedule_index == None:
-                    empty_schedule_index = ptp.find_random_filler(schedule, None, weekdays[day_counter%5])
-                    if empty_schedule_index == None:
-                        empty_schedule_index = ptp.find_random_filler(schedule)
-                schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_SEMINAR)
-            day_counter += counter_add
-        for i in range(course.q_practicum):
-            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
-            for j in range(int(split)):
-                empty_schedule_index = ptp.find_random_filler(schedule, None, weekdays[day_counter%5])
-                if empty_schedule_index == None:
-                    empty_schedule_index = ptp.find_random_filler(schedule, None, weekdays[day_counter%5])
-                    if empty_schedule_index == None:
-                        empty_schedule_index = ptp.find_random_filler(schedule)
-                schedule[empty_schedule_index].activity = activity.Activity(course, TYPE_PRACTICUM)
-            day_counter += counter_add
-    # fill all empty slots with "None" activities
-    while ptp.find_empty(schedule) or ptp.find_empty(schedule) == 0:
-        empty_slot = ptp.find_empty(schedule)
-        schedule[empty_slot].activity = activity.Activity(None, "None")
-    return schedule
+                    # Try and divide the students evenly
+                    start_bound = int(group_size * j)
+                    end_bound = int(group_size * (j + 1))
+                    # print "SB", start_bound
+                    # print "EB", end_bound
+                    schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                    schedule[empty_slot].activity.group = GROUP_STRING[j]
+                    course.groups.append(GROUP_STRING[j])
 
-def random_fill_schedule(schedule, courses):
-    for course in courses:
+                    # print schedule[empty_slot].activity.students
+                    # print len(schedule[empty_slot].activity.students)
 
-        for i in range(int(course.q_lecture)):
-            empty_slot = ptp.find_random_filler(schedule)
-            schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
+                else:
+                    start_bound = int(student_overflow * j)
+                    end_bound = int(student_overflow * (j + 1))
+                    schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                    schedule[empty_slot].activity.group = GROUP_STRING[j]
+                    course.groups.append(GROUP_STRING[j])
 
-        for i in range(int(course.q_seminar)):
-            split = math.ceil(len(course.student_list) / float(course.seminar_max_students))
+                    # print "ELSE"
+                    # print "LISTLENGTH", len(course.student_list)
+                    # print schedule[empty_slot].activity.students
+                    # print len(schedule[empty_slot].activity.students)
 
-            for j in range(int(split)):
-                empty_slot = ptp.find_random_filler(schedule)
-                schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
-
-        for i in range(int(course.q_practicum)):
-            split = math.ceil(len(course.student_list) / float(course.practicum_max_students))
-
-            for j in range(int(split)):
-                empty_slot = ptp.find_random_filler(schedule)
-                schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
-
-    # fill empty_slot slots with empty activities
-    while ptp.find_empty(schedule) or ptp.find_empty(schedule) == 0:
-        empty_slot = ptp.find_empty(schedule)
-        schedule[empty_slot].activity = activity.Activity(None, "None")
-    return schedule
-
-
-
-
-def fill_student_groups(schedule, overflow_percentage):
-    overflow = overflow_percentage / 100
-    print overflow
-
+            print course.groups
 
 
     return schedule
@@ -282,3 +227,4 @@ def validate_input_file(file_location):
         file_location = "input_files/" + file_location
 
     return file_location
+
