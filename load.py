@@ -1,11 +1,3 @@
-# load information and initialize roster
-
-# all input from CSV file
-
-# key pair zalen
-# vakken per key value met meerdere waardes.
-# key value where key is studentnumber and value is rest
-
 import elements as obj
 import roomslot
 import csv
@@ -20,6 +12,12 @@ TYPE_PRACTICUM = 'practicum'
 
 GROUP_STRING = string.ascii_uppercase
 
+
+"""
+
+    Put all students in their own student object.
+
+"""
 def load_students(student_file):
 
     student_file = validate_input_file(student_file)
@@ -44,6 +42,12 @@ def load_students(student_file):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+
+"""
+
+    Put all courses in their own course object.
+
+"""
 def load_courses(course_file, student_list):
 
     course_file = validate_input_file(course_file)
@@ -68,6 +72,12 @@ def load_courses(course_file, student_list):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+
+"""
+
+    Put all rooms in their own room object.
+
+"""
 def load_rooms(room_file):
 
     room_file = validate_input_file(room_file)
@@ -91,6 +101,12 @@ def load_rooms(room_file):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+
+"""
+
+    Create an empty schedule based on preset/hardcoded days and times.
+
+"""
 def create_schedule(room_list):
     room_slots = []
 
@@ -108,6 +124,11 @@ def create_schedule(room_list):
 
     return room_slots
 
+"""
+
+    Fill the emty schedule in one of the most basic ways.
+
+"""
 def fill_schedule(schedule, courses):
     # TODO: Global overflow_percentage
     overflow_percentage = 110
@@ -124,7 +145,6 @@ def fill_schedule(schedule, courses):
         for i in range(int(course.q_seminar)):
             student_overflow = math.ceil(course.seminar_max_students * (float(overflow_percentage) / 100))
             split = math.ceil(len(course.student_list) / student_overflow)
-            print "SPLIT:", split
 
             for j in range(int(split)):
                 #print "SPLIT", split
@@ -219,7 +239,11 @@ def fill_schedule(schedule, courses):
 
     return schedule
 
+"""
 
+    Format the user input.
+
+"""
 def validate_input_file(file_location):
     if file_location[-4:] != '.csv':
         file_location = file_location + '.csv'

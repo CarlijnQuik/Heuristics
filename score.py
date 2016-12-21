@@ -3,6 +3,13 @@ INVALID_SCHEDULE = 0
 
 from collections import Counter
 
+
+"""
+
+    Calculate the score of the input schedule.
+        This function calls all calculator parts and returns the final score.
+
+"""
 def calculate(schedule, courses):
     print "Calculating score.."
     score = 0
@@ -22,10 +29,11 @@ def calculate(schedule, courses):
     return score
 
 
-#
-#   Check if all course lessons are in the schedule
-#   DONE
-#
+"""
+
+    Check if all course lessons are in the schedule.
+
+"""
 def check_valid_schedule(schedule, courses):
     count = 0
     total = 0
@@ -43,10 +51,12 @@ def check_valid_schedule(schedule, courses):
     else:
         return INVALID_SCHEDULE
 
-#
-#   Checks the 'special' timeslot C0.110 @ 1700
-#   DONE
-#
+
+"""
+
+    Checks the special timeslot C0.110 @ 1700.
+
+"""
 def check_special_timeslot(schedule):
     score = 0
     conflict_list = []
@@ -62,10 +72,11 @@ def check_special_timeslot(schedule):
     return conflict_list, score
 
 
-#
-#   Checks the spreading across the week for every course
-#   TODO: DEBUG
-#
+"""
+
+    Check the spreading across the week for every course and groups.
+
+"""
 def check_spreading(schedule, courses):
 
     SPREADING_1 = ["monday", "thursday"]
@@ -77,12 +88,8 @@ def check_spreading(schedule, courses):
     score = 0
     course_spreadings = {}
 
-
-    #
-    # TODO: Use Types too when checking groups.
     for i, roomslot in enumerate(schedule):
         if roomslot.activity:
-            print "NEW check spreading", roomslot.activity.course.name
             if roomslot.activity.group is not "":
                 key = roomslot.activity.course.name + roomslot.activity.group
                 if key in course_spreadings.keys():
@@ -149,10 +156,11 @@ def check_spreading(schedule, courses):
     return score
 
 
-#
-#   Check for too many students in a room
-#   Check if it also does not exceeds practicum_max for example
-#
+"""
+
+    Check for overpupulation of a room.
+
+"""
 def check_small_room(schedule):
     score = 0
     conflict_list = []
@@ -168,11 +176,12 @@ def check_small_room(schedule):
     return conflict_list, score
 
 
+"""
 
-#
-# Check if and how many of the same course are given on day x
-# TODO: DEBUG
-#
+    Check if a course is planned twice on the same day.
+        This excludes courses of the same type, they can not be duplicate.
+
+"""
 def check_day_duplicate(schedule):
     score = 0
     conflict_list = []
@@ -203,10 +212,12 @@ def check_day_duplicate(schedule):
 
     return conflict_list, len(conflict_list)
 
-#
-# Check for hour conflicts per student in the schedule
-# TODO: DEBUG
-#
+
+"""
+
+    Check for hour conflicts per student in the schedule.
+
+"""
 def check_multiple_activities(schedule):
     conflict_list = []
     daytime_activity_list = {}
@@ -229,5 +240,3 @@ def check_multiple_activities(schedule):
                 conflict_list.append(activity for student, v in Counter(activity.students).iteritems() if v > 1)
 
     return conflict_list, len(conflict_list)
-
-
