@@ -1,26 +1,27 @@
-# load information and initialize roster
-
-# all input from CSV file
-
-# key pair zalen
-# vakken per key value met meerdere waardes.
-# key value where key is studentnumber and value is rest
-
 import elements as obj
 import roomslot
 import csv
 import activity
 import ptp
 import math
+import string
 
 TYPE_LECTURE = 'lecture'
 TYPE_SEMINAR = 'seminar'
 TYPE_PRACTICUM = 'practicum'
 
+GROUP_STRING = string.ascii_uppercase
+
+
+"""
+
+    Put all students in their own student object.
+
+"""
 def load_students(student_file):
 
     student_file = validate_input_file(student_file)
-    student_as_object = {}
+    student_as_object = []
 
     try:
         with open(student_file, 'r') as csvfile:
@@ -33,7 +34,7 @@ def load_students(student_file):
             for student in students:
                 print '\tProcessing student #' + student[2]
                 new_object = obj.Student(student[2], student[0], student[1], student[3], student[4], student[5], student[6], student[7])
-                student_as_object[student[2]] = new_object
+                student_as_object.append(new_object)
 
         print 'Number of students processed:', len(student_as_object), '\n'
         return student_as_object
@@ -41,6 +42,12 @@ def load_students(student_file):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+
+"""
+
+    Put all courses in their own course object.
+
+"""
 def load_courses(course_file, student_list):
 
     course_file = validate_input_file(course_file)
@@ -65,6 +72,12 @@ def load_courses(course_file, student_list):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+
+"""
+
+    Put all rooms in their own room object.
+
+"""
 def load_rooms(room_file):
 
     room_file = validate_input_file(room_file)
@@ -88,6 +101,12 @@ def load_rooms(room_file):
         print 'Could not find or open the student file!'
         print 'Make sure your files are located in the input_files folder.'
 
+
+"""
+
+    Create an empty schedule based on preset/hardcoded days and times.
+
+"""
 def create_schedule(room_list):
     room_slots = []
 
@@ -105,6 +124,11 @@ def create_schedule(room_list):
 
     return room_slots
 
+"""
+
+    Fill the emty schedule in one of the most basic ways.
+
+"""
 def fill_schedule(schedule, courses):
     # TODO: Global overflow_percentage
     overflow_percentage = 110
@@ -123,23 +147,103 @@ def fill_schedule(schedule, courses):
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
+                #print "SPLIT", split
+                #print "STUDENTS", len(course.student_list)
+                #print "STUDENTOVERFLOW", student_overflow
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
-                print "Block:", j * student_overflow
+
+                last_class_count = len(course.student_list) % student_overflow
+
+                # If enough room in last class, divide even
+
+                if (int(course.q_seminar) > 0 and int(course.q_practicum) <= 0):
+                    if (last_class_count < (student_overflow - split) and last_class_count != 0):
+                        #print "LCC", last_class_count
+                        #print "IF", (student_overflow - split)
+                        group_size = math.ceil(len(course.student_list) / split)
+                        #print "LISTLENGTH", len(course.student_list)
+                        #print "GROUPSIZE", group_size
+
+                        # Try and divide the students evenly
+                        start_bound = int(group_size * j)
+                        end_bound = int(group_size * (j + 1))
+                        # print "SB", start_bound
+                        # print "EB", end_bound
+                        schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                        schedule[empty_slot].activity.group = GROUP_STRING[j]
+                        course.groups.append(GROUP_STRING[j])
+
+                        # print schedule[empty_slot].activity.students
+                        # print len(schedule[empty_slot].activity.students)
+
+                    else:
+                        start_bound = int(student_overflow * j)
+                        end_bound = int(student_overflow * (j + 1))
+                        schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                        schedule[empty_slot].activity.group = GROUP_STRING[j]
+                        course.groups.append(GROUP_STRING[j])
+
+                        # print "ELSE"
+                        # print "LISTLENGTH", len(course.student_list)
+                        # print schedule[empty_slot].activity.students
+                        # print len(schedule[empty_slot].activity.students)
 
         for i in range(int(course.q_practicum)):
-
             student_overflow = math.ceil(course.practicum_max_students * (float(overflow_percentage) / 100))
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
+                # print "SPLIT", split
+                # print "STUDENTS", len(course.student_list)
+                # print "STUDENTOVERFLOW", student_overflow
                 empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
-                print "Block:", j * student_overflow
+
+                last_class_count = len(course.student_list) % student_overflow
+
+                # If enough room in last class, divide even
+                if (last_class_count < (student_overflow - split) and last_class_count != 0):
+                    # print "LCC", last_class_count
+                    # print "IF", (student_overflow - split)
+                    group_size = math.ceil(len(course.student_list) / split)
+                    # print "LISTLENGTH", len(course.student_list)
+                    # print "GROUPSIZE", group_size
+
+                    # Try and divide the students evenly
+                    start_bound = int(group_size * j)
+                    end_bound = int(group_size * (j + 1))
+                    # print "SB", start_bound
+                    # print "EB", end_bound
+                    schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                    schedule[empty_slot].activity.group = GROUP_STRING[j]
+                    course.groups.append(GROUP_STRING[j])
+
+                    # print schedule[empty_slot].activity.students
+                    # print len(schedule[empty_slot].activity.students)
+
+                else:
+                    start_bound = int(student_overflow * j)
+                    end_bound = int(student_overflow * (j + 1))
+                    schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                    schedule[empty_slot].activity.group = GROUP_STRING[j]
+                    course.groups.append(GROUP_STRING[j])
+
+                    # print "ELSE"
+                    # print "LISTLENGTH", len(course.student_list)
+                    # print schedule[empty_slot].activity.students
+                    # print len(schedule[empty_slot].activity.students)
+
+            print course.groups
+
 
     return schedule
 
+"""
 
+    Format the user input.
+
+"""
 def validate_input_file(file_location):
     if file_location[-4:] != '.csv':
         file_location = file_location + '.csv'

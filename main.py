@@ -4,6 +4,7 @@ import load as loader
 import csv
 import score
 import ptp
+import guided_hillclimber as guided_hill
 
 def write_csv(schedule):
     with open("output_files/schedule2.csv", "wb") as csvfile:
@@ -11,7 +12,7 @@ def write_csv(schedule):
 
         for i, roomslot in enumerate(schedule):
             if roomslot.activity and roomslot.activity.course:
-                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type])
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group])
 
         print "Output file generated!"
 
@@ -51,7 +52,6 @@ score.calculate(schedule, courses)
 write_csv(schedule)
 
 print '\n\tDONE LOADING!\n'
-
 
 #
 # Random swap two activities
