@@ -89,7 +89,7 @@ def random_hillclimber(schedule, courses, desired_score, maximum_duration = None
 
 """
 
-    Hillclimber algorithm based constrained mutations.
+    Hillclimber algorithm based on constrained mutations.
 
 """
 def guided_hillclimber(schedule, courses, desired_score):
