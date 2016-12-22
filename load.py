@@ -130,8 +130,7 @@ def create_schedule(room_list):
 
 """
 def fill_schedule(schedule, courses):
-    # TODO: Global overflow_percentage
-    overflow_percentage = 110
+    overflow_percentage = 10
 
     for course in courses:
 
@@ -141,7 +140,8 @@ def fill_schedule(schedule, courses):
             schedule[empty_slot].activity.students = course.student_list
 
         for i in range(int(course.q_seminar)):
-            student_overflow = math.ceil(course.seminar_max_students * (float(overflow_percentage) / 100))
+            student_overflow = math.ceil( (course.seminar_max_students * (float(overflow_percentage) / 100)) + course.seminar_max_students)
+
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
@@ -188,7 +188,7 @@ def fill_schedule(schedule, courses):
                         # print len(schedule[empty_slot].activity.students)
 
         for i in range(int(course.q_practicum)):
-            student_overflow = math.ceil(course.practicum_max_students * (float(overflow_percentage) / 100))
+            student_overflow = math.ceil( (course.practicum_max_students * (float(overflow_percentage) / 100)) + course.practicum_max_students)
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
@@ -196,6 +196,118 @@ def fill_schedule(schedule, courses):
                 # print "STUDENTS", len(course.student_list)
                 # print "STUDENTOVERFLOW", student_overflow
                 empty_slot = ptp.find_empty(schedule)
+                schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
+
+                last_class_count = len(course.student_list) % student_overflow
+
+                # If enough room in last class, divide even
+                if (last_class_count < (student_overflow - split) and last_class_count != 0):
+                    # print "LCC", last_class_count
+                    # print "IF", (student_overflow - split)
+                    group_size = math.ceil(len(course.student_list) / split)
+                    # print "LISTLENGTH", len(course.student_list)
+                    # print "GROUPSIZE", group_size
+
+                    # Try and divide the students evenly
+                    start_bound = int(group_size * j)
+                    end_bound = int(group_size * (j + 1))
+                    # print "SB", start_bound
+                    # print "EB", end_bound
+                    schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                    schedule[empty_slot].activity.group = GROUP_STRING[j]
+                    course.groups.append(GROUP_STRING[j])
+
+                    # print schedule[empty_slot].activity.students
+                    # print len(schedule[empty_slot].activity.students)
+
+                else:
+                    start_bound = int(student_overflow * j)
+                    end_bound = int(student_overflow * (j + 1))
+                    schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                    schedule[empty_slot].activity.group = GROUP_STRING[j]
+                    course.groups.append(GROUP_STRING[j])
+
+                    # print "ELSE"
+                    # print "LISTLENGTH", len(course.student_list)
+                    # print schedule[empty_slot].activity.students
+                    # print len(schedule[empty_slot].activity.students)
+
+
+    return schedule
+
+
+"""
+
+    Fill the emty schedule in a random way
+
+"""
+def fill_schedule_random(schedule, courses):
+    overflow_percentage = 10
+
+    for course in courses:
+
+        for i in range(int(course.q_lecture)):
+            empty_slot = ptp.find_empty_random(schedule)
+            schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
+            schedule[empty_slot].activity.students = course.student_list
+
+        for i in range(int(course.q_seminar)):
+            student_overflow = math.ceil( (course.seminar_max_students * (float(overflow_percentage) / 100)) + course.seminar_max_students)
+
+            split = math.ceil(len(course.student_list) / student_overflow)
+
+            for j in range(int(split)):
+                #print "SPLIT", split
+                #print "STUDENTS", len(course.student_list)
+                #print "STUDENTOVERFLOW", student_overflow
+                empty_slot = ptp.find_empty_random(schedule)
+                schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
+
+                last_class_count = len(course.student_list) % student_overflow
+
+                # If enough room in last class, divide even
+
+                if (int(course.q_seminar) > 0 and int(course.q_practicum) <= 0):
+                    if (last_class_count < (student_overflow - split) and last_class_count != 0):
+                        #print "LCC", last_class_count
+                        #print "IF", (student_overflow - split)
+                        group_size = math.ceil(len(course.student_list) / split)
+                        #print "LISTLENGTH", len(course.student_list)
+                        #print "GROUPSIZE", group_size
+
+                        # Try and divide the students evenly
+                        start_bound = int(group_size * j)
+                        end_bound = int(group_size * (j + 1))
+                        # print "SB", start_bound
+                        # print "EB", end_bound
+                        schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                        schedule[empty_slot].activity.group = GROUP_STRING[j]
+                        course.groups.append(GROUP_STRING[j])
+
+                        # print schedule[empty_slot].activity.students
+                        # print len(schedule[empty_slot].activity.students)
+
+                    else:
+                        start_bound = int(student_overflow * j)
+                        end_bound = int(student_overflow * (j + 1))
+                        schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
+                        schedule[empty_slot].activity.group = GROUP_STRING[j]
+                        course.groups.append(GROUP_STRING[j])
+
+                        # print "ELSE"
+                        # print "LISTLENGTH", len(course.student_list)
+                        # print schedule[empty_slot].activity.students
+                        # print len(schedule[empty_slot].activity.students)
+
+        for i in range(int(course.q_practicum)):
+            student_overflow = math.ceil( (course.practicum_max_students * (float(overflow_percentage) / 100)) + course.practicum_max_students)
+            split = math.ceil(len(course.student_list) / student_overflow)
+
+            for j in range(int(split)):
+                # print "SPLIT", split
+                # print "STUDENTS", len(course.student_list)
+                # print "STUDENTOVERFLOW", student_overflow
+                empty_slot = ptp.find_empty_random(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
 
                 last_class_count = len(course.student_list) % student_overflow

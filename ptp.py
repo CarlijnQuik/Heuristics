@@ -24,12 +24,6 @@ def scores_random_schedules(schedule, courses, number_random_schedules):
     plt.show()
     return srs
 
-
-def alg(students, courses, rooms, schedule):
-
-
-    return schedule
-
 def find_empty(schedule, max_size = None, day = None):
     for i, roomslot in enumerate(schedule):
         if day != None:
@@ -48,28 +42,6 @@ def find_empty(schedule, max_size = None, day = None):
             return i
     return None
 
-# use this random empty when a schedule is being filled
-#TODO: checken of deze nog nodig is! doordat niet alle courses meer gevuld hoeven worden met "None" door activity swap ipv de elementen van activity
-def find_random_filler(schedule, max_size = None, day = None):
-    search_count = 0
-    while search_count < 100:
-        random_index = random.randrange(len(schedule))
-        if day != None:
-            if schedule[random_index].day == day:
-                if max_size != None:
-                    if schedule[random_index].room.capacity <= max_size:
-                        if schedule[random_index].activity is None:
-                            return random_index
-                elif schedule[random_index].activity is None:
-                    return random_index
-        elif max_size != None:
-            if schedule[random_index].room.capacity <= max_size:
-                if schedule[random_index].activity is None:
-                    return random_index
-        elif schedule[random_index].activity is None:
-            return random_index
-        search_count += 1
-    return find_empty(schedule)
 
 # use this random empty when a filled schedule is being searched
 # maybe a store function that it remembers what has already been added if the same schedule is checked again

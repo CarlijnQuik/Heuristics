@@ -48,7 +48,7 @@ else:
 
 schedule = loader.create_schedule(rooms)
 # Fill the schedule with all courses
-schedule = loader.fill_schedule(schedule, courses)
+schedule = loader.fill_schedule_random(schedule, courses)
 
 # Fill the schedule with directed roomfiller
 #schedule = loader.directed_fill_schedule(schedule, courses)
