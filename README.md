@@ -1,4 +1,4 @@
-# Heuristieken
+# Heuristieken Lectures & Lesroosters: T3 Team Time Table
 
 ## Run Algorithms
 
@@ -43,7 +43,7 @@ The overflow percentage is used to put more students in a class than allowed. Th
 
 
 
-### Contributors:
+## Contributors:
 Chris https://github.com/Chrisderijcke92<br />
 Carlijn https://github.com/CarlijnQ<br />
 Erik https://github.com/DevConfesss<br />
