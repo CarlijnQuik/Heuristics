@@ -51,9 +51,10 @@ def random_hillclimber(schedule, courses, desired_score, maximum_duration = None
         new_score = score.calculate(new_schedule, courses)
         # Compare score before and after mutation. The mutation is accepted,
         # if new score equals or is higher than the old score.
-        if new_score >= old_score:
+        if new_score > old_score:
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
+            print score_schedule
 
         # calculate the in between time
         update_time = time.time() - start_time
@@ -138,32 +139,31 @@ def guided_hillclimber(schedule, courses, desired_score):
             max_sub_score = "random"
 
         #TODO: REMOVE. ONLY FOR TESTING PURPOSES
-        print "max sub score:    ", max_sub_score,
-        print "special_time_slot: ", special_time_slot[1], "multiple_activities: ", multiple_activities[1], "day_duplicate: ", day_duplicate[1]
-        #print "this is day_duplicate score: ", day_duplicate[1], random.choice(day_duplicate[0][random.choice(day_duplicate[0].keys())][1:])
+        # print "max sub score:\t", max_sub_score,
+        # print "special_time_slot: ", special_time_slot[1], "multiple_activities: ", multiple_activities[1], "day_duplicate: ", day_duplicate[1]
+        # print "this is day_duplicate score: ", day_duplicate[1], random.choice(day_duplicate[0][random.choice(day_duplicate[0].keys())][1:])
 
         # for day_duplicate: check_day_duplicate
         if max_sub_score == "day_duplicate":
             swap_index_1 = random.choice(day_duplicate[0])
-            print new_schedule[swap_index_1].day
+            # print new_schedule[swap_index_1].day
             swap_index_2 = random.randrange(len(schedule))
             while new_schedule[swap_index_1].day == new_schedule[swap_index_2].day:
                 swap_index_2 = random.randrange(len(schedule))
         # for multiple_activities: check_multiple_activities
         elif max_sub_score == "multiple_activities":
-            print "retun of the multiple_activities:  " , multiple_activities[0]
 
-            swap_index_1 = multiple_activities[0][random.choice(multiple_activities[0])]["course1"]
+            swap_index_1 = random.choice(multiple_activities[0])
             swap_index_2 = random.randrange(len(schedule))
             while swap_index_2 == swap_index_1:
                 swap_index_2 = random.randrange(len(schedule))
         # for special_time_slot: special_timeslot
         elif max_sub_score == "special_time_slot":
             swap_index_1 = special_time_slot[0][0]
-            print special_time_slot[0][0]
-            print new_schedule[special_time_slot[0][0]].activity.course.seminar_max_students
+            # print special_time_slot[0][0]
+            # print new_schedule[special_time_slot[0][0]].activity.course.seminar_max_students
             empty_place = ptp.find_empty_random(new_schedule)
-            print "the empty_place:", empty_place
+            # print "the empty_place:", empty_place
             swap_index_2 = empty_place
             swap_index_2 = random.randrange(len(schedule))
          # create random swap indexes
@@ -181,9 +181,10 @@ def guided_hillclimber(schedule, courses, desired_score):
         # increase rank_in_subscores value to prefent getting stuck in local maximum
         rank_in_subscores += 1/20
         # if the new score is higher, accept new schedule
-        if new_score >= old_score:
+        if new_score > old_score:
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
+            print score_schedule
             # reset rank_in_subscorescore
             rank_in_subscores = 0
 
@@ -201,9 +202,9 @@ def guided_hillclimber(schedule, courses, desired_score):
 
     print "\tguided_hillclimber; score: ", score_schedule, "elapsed time: ", int(elapsed_time / 60),"Min", int(elapsed_time % 60), "sec"
     #TODO: REMOVE. print time list
-    print update_times
+    # print update_times
     #TODO: REMOVE. print
-    print score_increase
+    # print score_increase
     # create graph of time and scores
     plt.plot(update_times, score_increase)
     # print plot information for save purposes

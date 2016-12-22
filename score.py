@@ -11,7 +11,6 @@ from collections import Counter
 
 """
 def calculate(schedule, courses):
-    print "Calculating score.."
     score = 0
 
     # Bonus
@@ -24,7 +23,7 @@ def calculate(schedule, courses):
     score -= check_multiple_activities(schedule)[1]
     score -= check_special_timeslot(schedule)[1]
 
-    print '\n', 'SCORE: {:04d}'.format(score), '\n\n'
+    #print '\n', 'SCORE: {:04d}'.format(score), '\n\n'
 
     return score
 
@@ -234,10 +233,6 @@ def check_multiple_activities(schedule):
                 daytime_activity_list[key] = [{"activity": roomslot.activity, "index": i}]
 
     for daytime in daytime_activity_list:
-        # print daytime
-        # print daytime_activity_list[daytime]
-
-        print daytime
         student_list = []
 
         for item in daytime_activity_list[daytime]:

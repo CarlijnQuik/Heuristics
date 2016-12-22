@@ -74,8 +74,8 @@ print '\n\tDONE LOADING!\n'
 #
 # Random swap two activities
 
-#random_hillclimber_schedule = hillclimber.random_hillclimber(schedule, courses, 1400, 4)
-guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 0)
+random_hillclimber_schedule = hillclimber.random_hillclimber(schedule, courses, 1100)
+#guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 900)
 #random_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, -600, 1000, 20)
 #guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, -1500, 1000, 20)
 #random_fireworks = fireworks.random_fireworks(schedule, courses, 0, 5)
