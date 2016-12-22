@@ -33,7 +33,7 @@ def random_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
     update_times = []
     update_times.append(start_time - start_time)
     
-    # Denotes the annealing parameter
+    # Denotes the annealing parameter.
     k = 0
 
     while score_schedule < desired_score:
@@ -125,7 +125,7 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
         # Create new_schedule.
         new_schedule = copy.deepcopy(schedule)
         
-        # Determine score of the former schedule
+        # Determine score of the former schedule.
         old_score = score.calculate(new_schedule, courses)
         
         # Calculate subscores and determine which subscore is the highest.
