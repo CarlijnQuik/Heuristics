@@ -23,6 +23,7 @@ def write_csv(schedule):
         cursor = csv.writer(csvfile)
 
         for i, roomslot in enumerate(schedule):
+            # Only print real activities
             if roomslot.activity and roomslot.activity.course:
                 cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group])
 
@@ -72,10 +73,3 @@ print '\n\tDONE LOADING!\n'
     Put the code of the algorithm you want to run below
 
 """
-
-
-#random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 1100)
-guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 1100)
-#random_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, -600, 1000, 20)
-#guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, -1500, 1000, 20)
-#random_fireworks = fireworks.random_fireworks(schedule, courses, 0, 5)
