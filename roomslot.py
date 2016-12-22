@@ -1,6 +1,3 @@
-import csv
-
-
 """
     
    Object representing a roomslot.
