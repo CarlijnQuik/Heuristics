@@ -135,7 +135,7 @@ def fill_schedule(schedule, courses):
     for course in courses:
 
         for i in range(int(course.q_lecture)):
-            empty_slot = ptp.find_empty_random(schedule)
+            empty_slot = ptp.find_empty(schedule)
             schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
             schedule[empty_slot].activity.students = course.student_list
 
@@ -145,7 +145,7 @@ def fill_schedule(schedule, courses):
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
-                empty_slot = ptp.find_empty_random(schedule)
+                empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_SEMINAR)
 
                 last_class_count = len(course.student_list) % student_overflow
@@ -176,7 +176,7 @@ def fill_schedule(schedule, courses):
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
-                empty_slot = ptp.find_empty_random(schedule)
+                empty_slot = ptp.find_empty(schedule)
                 schedule[empty_slot].activity = activity.Activity(course, TYPE_PRACTICUM)
 
                 last_class_count = len(course.student_list) % student_overflow
