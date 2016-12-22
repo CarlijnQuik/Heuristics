@@ -9,6 +9,12 @@ import pylab
 import load as loader
 from collections import deque
 
+
+"""
+    
+    Helper for the random scheduling and finding an empty roomslot.
+    
+"""
 def scores_random_schedules(schedule, courses, number_random_schedules):
     random_schedules_scores = []
     for i in range(number_random_schedules):
@@ -43,8 +49,7 @@ def find_empty(schedule, max_size = None, day = None):
     return None
 
 
-# use this random empty when a filled schedule is being searched
-# maybe a store function that it remembers what has already been added if the same schedule is checked again
+# Finds random empty when a filled schedule is being searched.
 def find_empty_random(schedule, max_size = 0):
     empty_room_list = []
     for i, roomslot in enumerate(schedule):
@@ -52,8 +57,3 @@ def find_empty_random(schedule, max_size = 0):
             empty_room_list.append(i)
     return random.choice(empty_room_list)
 
-
-
-#
-# Track recent score steps, stop if nothing changed much!
-#
