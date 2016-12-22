@@ -26,6 +26,21 @@ Dit algortime sorteert de lijst met vakken van veel activiteiten naar weinig act
 Totale bonus-malus = 440
 
 """
+def scores_random_schedules(schedule, courses, number_random_schedules):
+    random_schedules_scores = []
+    for i in range(number_random_schedules):
+        random_schedule = copy.deepcopy(schedule)
+        random_schedule = loader.random_fill_schedule(random_schedule, courses)
+        random_schedule_score = score.calculate(random_schedule, courses)
+        random_schedules_scores.append(random_schedule_score)
+    srs = random_schedules_scores
+    plt.plot(range(0,len(srs)),srs , "o")
+    srs_average = sum(srs)/len(srs)
+    srs_max = max(srs)
+    plt.title(str(number_random_schedules) + " random schedules scores with an average score of " + str(srs_average) + " and a maximum value of " + str(srs_max))
+    plt.show()
+    return srs
+
 
 def alg(students, courses, rooms):
     print 'Creating schedule..'
