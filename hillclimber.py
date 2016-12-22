@@ -165,14 +165,15 @@ def guided_hillclimber(schedule, courses, desired_score):
                 
         # For special_time_slot: special_timeslot.
         elif max_sub_score == "special_time_slot":
-            swap_index_1 = special_time_slot[0][0]
+            swap_index_1 = random.choice(special_time_slot[0])
             empty_place = ptp.find_empty_random(new_schedule)
             swap_index_2 = empty_place
-            swap_index_2 = random.randrange(len(schedule))
+            
+        # For small_room: small_room.    
         elif max_sub_score == "small_room":
             swap_index_1 = random.choice(small_room[0])
             swap_index_2 = random.randrange(len(schedule))
-            while schedule[swap_index_2].room.capacity < len(schedule[swap_index_1].activity.students):
+            while new_schedule[swap_index_2].room.capacity < len(new_schedule[swap_index_1].activity.students):
                 swap_index_2 = random.randrange(len(schedule))
                 
         # Create random swap indexes.
@@ -207,7 +208,7 @@ def guided_hillclimber(schedule, courses, desired_score):
             update_times.append(update_time)
             score_increase.append(score_schedule)
             if len(score_increase) >= 61:
-                if (score_increase[-1] - score_increase[-61]) < 15:
+                if (score_increase[-1] - score_increase[-61]) < 3:
                     break
                     
     # Calculate total time since the algorithm has started.
