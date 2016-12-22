@@ -180,6 +180,8 @@ def guided_hillclimber(schedule, courses, desired_score):
         else:
             swap_index_1 = random.randrange(len(schedule))
             swap_index_2 = random.randrange(len(schedule))
+            while swap_index_1 == swap_index_2:
+                swap_index_2 = random.randrange(len(schedule))
 
         # Swap courses and course types.
         temp_activity = new_schedule[swap_index_1].activity
@@ -189,7 +191,7 @@ def guided_hillclimber(schedule, courses, desired_score):
         # Calculate score of new schedule.
         new_score = score.calculate(new_schedule, courses)
         
-        # increase rank_in_subscores value to prevent getting stuck in local maximum.
+        # Increase rank_in_subscores value to prevent getting stuck in local maximum.
         rank_in_subscores += 1/20
         
         # If the new score is higher, accept new schedule.
