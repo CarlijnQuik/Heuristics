@@ -32,7 +32,7 @@ write_csv(random_simulated_annealer["schedule"])
 #### Run Guided Simulated Annealer
 
 ```python
-guided_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, [desired_score], <starting_temperature>, <max_duration>)
+guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, [desired_score], <starting_temperature>, <max_duration>)
 write_csv(guided_simulated_annealer["schedule"])
 ```
 

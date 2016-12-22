@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pylab
 import load as loader
 from collections import deque
+import ptp
 
 
 """
@@ -25,6 +26,7 @@ def random_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
     
     # Calculate starting score of schedule.
     score_schedule = score.calculate(schedule, courses)
+    print "Base Score:", score_schedule
     
     # Lists to store the in between scores in time.
     new_schedule = copy.copy(schedule)
@@ -65,9 +67,11 @@ def random_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
         if new_score >= old_score:
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
+            print score_schedule
         elif decision(decision_annealing):
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
+            print score_schedule
 
         if temp > 20:
             k += 1
@@ -105,6 +109,7 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
     
     # Calculate starting score of schedule.
     score_schedule = score.calculate(schedule, courses)
+    print "Base Score:", score_schedule
     new_schedule = copy.copy(schedule)
     score_increase = []
     score_increase.append(score_schedule)
@@ -160,7 +165,7 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
                 
         # For CMA: check_multiple_activities.
         elif max_sub_score == "CMA":
-            swap_index_1 = CMA[0][random.choice(CMA[0].keys())]["course1"]
+            swap_index_1 = random.choice(CMA[0])
             swap_index_2 = random.randrange(len(schedule))
             while swap_index_2 == swap_index_1:
                 swap_index_2 = random.randrange(len(schedule))
@@ -170,7 +175,7 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
             swap_index_1 = STS[0][0]
             print STS[0][0]
             print new_schedule[STS[0][0]].activity.course.seminar_max_students
-            empty_place = find_empty_random(new_schedule)
+            empty_place = ptp.find_empty_random(new_schedule)
             print "the empty_place:", empty_place
             swap_index_2 = empty_place
             swap_index_2 = random.randrange(len(schedule))
@@ -192,13 +197,15 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
         rank_in_subscores += 1/20
 
         decision_annealing =  (1 / (1 + (math.exp(((old_score - new_score) * 5) / temp))))
-        if new_score >= old_score:
+        if new_score > old_score:
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
+            print score_schedule
         elif decision(decision_annealing):
             print "                 there was annealed", decision_annealing, (abs(old_score)-abs(new_score))
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
+            print score_schedule
 
         if temp > 20:
             k += 1

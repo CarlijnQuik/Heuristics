@@ -74,5 +74,8 @@ print '\n\tDONE LOADING!\n'
 
 """
 
-random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 850)
-write_csv(random_hillclimber["schedule"])
+# random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 850)
+# write_csv(random_hillclimber["schedule"])
+
+random_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, 900)
+write_csv(random_simulated_annealer["schedule"])
