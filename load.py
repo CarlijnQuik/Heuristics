@@ -12,6 +12,8 @@ TYPE_PRACTICUM = 'practicum'
 
 GROUP_STRING = string.ascii_uppercase
 
+OVERFLOW_PERCENTAGE = 10
+
 
 """
 
@@ -131,17 +133,14 @@ def create_schedule(room_list):
 
 """
 def fill_schedule(schedule, courses):
-    overflow_percentage = 10
-
     for course in courses:
-
         for i in range(int(course.q_lecture)):
             empty_slot = ptp.find_empty(schedule)
             schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
             schedule[empty_slot].activity.students = course.student_list
 
         for i in range(int(course.q_seminar)):
-            student_overflow = math.ceil( (course.seminar_max_students * (float(overflow_percentage) / 100)) + course.seminar_max_students)
+            student_overflow = math.ceil( (course.seminar_max_students * (float(OVERFLOW_PERCENTAGE) / 100)) + course.seminar_max_students)
 
             split = math.ceil(len(course.student_list) / student_overflow)
 
@@ -172,7 +171,7 @@ def fill_schedule(schedule, courses):
                         course.groups.append(GROUP_STRING[j])
 
         for i in range(int(course.q_practicum)):
-            student_overflow = math.ceil( (course.practicum_max_students * (float(overflow_percentage) / 100)) + course.practicum_max_students)
+            student_overflow = math.ceil( (course.practicum_max_students * (float(OVERFLOW_PERCENTAGE) / 100)) + course.practicum_max_students)
             split = math.ceil(len(course.student_list) / student_overflow)
 
             for j in range(int(split)):
@@ -208,18 +207,15 @@ def fill_schedule(schedule, courses):
 
 """
 def fill_schedule_random(schedule, courses):
-    overflow_percentage = 10
-
     for course in courses:
-
         for i in range(int(course.q_lecture)):
             empty_slot = ptp.find_empty_random(schedule)
             schedule[empty_slot].activity = activity.Activity(course, TYPE_LECTURE)
             schedule[empty_slot].activity.students = course.student_list
 
         for i in range(int(course.q_seminar)):
-            if overflow_percentage > 0:
-                student_overflow = math.ceil( (course.seminar_max_students * (float(overflow_percentage) / 100)) + course.seminar_max_students)
+            if OVERFLOW_PERCENTAGE > 0:
+                student_overflow = math.ceil( (course.seminar_max_students * (float(OVERFLOW_PERCENTAGE) / 100)) + course.seminar_max_students)
             else:
                 student_overflow = course.seminar_max_students
 
@@ -252,7 +248,7 @@ def fill_schedule_random(schedule, courses):
 
         for i in range(int(course.q_practicum)):
             if student_overflow > 0:
-                student_overflow = math.ceil( (course.practicum_max_students * (float(overflow_percentage) / 100)) + course.practicum_max_students)
+                student_overflow = math.ceil( (course.practicum_max_students * (float(OVERFLOW_PERCENTAGE) / 100)) + course.practicum_max_students)
             else:
                 student_overflow = course.practicum_max_students
 
