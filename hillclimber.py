@@ -49,8 +49,7 @@ def random_hillclimber(schedule, courses, desired_score, maximum_duration = None
         # Calculate score mutated schedule.
         new_score = score.calculate(new_schedule, courses)
         
-        # Compare score before and after mutation. The mutation is accepted,
-        # if new score equals or is higher than the old score.
+        # The mutation is accepted, if the new score is higher than the old score.
         if new_score > old_score:
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
