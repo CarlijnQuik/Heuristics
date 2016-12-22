@@ -1,6 +1,6 @@
 """
 
-Object representing a single student
+Object representing a single student.
 
 """
 class Student(object):
@@ -10,6 +10,7 @@ class Student(object):
         self.first_name = first_name
         self.subjects = args
 
+        
 """
 
 Object representing a room/place where e.g. lectures are given.
@@ -20,16 +21,16 @@ class Room(object):
         self.name = name
         self.capacity = int(capacity)
 
+        
 """
 
-Object representing Subjects (E.G. Advanced Heuristics)
-Each class has x amounts of lectures, seminars, students, practicums
-Seminars and practicums can have a max size too
+Object representing Subjects (E.G. Advanced Heuristics).
+    Each class has x amounts of lectures, seminars, students, practicums.
+        Seminars and practicums can have a max size too.
+
 
 """
 class Course(object):
-    # English for: Werkcollege?
-    # q = quantity
     def __init__(self, name, q_lecture, q_seminar, seminar_max_students, q_practicum, practicum_max_students):
         if seminar_max_students == "nvt":
             seminar_max_students = 0
