@@ -10,3 +10,5 @@ class Activity(object):
         self.type = type
         self.group = ""
         self.students = []
+        
+        
