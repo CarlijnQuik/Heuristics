@@ -1,6 +1,11 @@
 import csv
 
 
+"""
+    
+   Object representing a roomslot.
+    
+"""
 class Roomslot(object):
     def __init__(self, room, day, time):
         self.room = room
@@ -8,3 +13,5 @@ class Roomslot(object):
         self.time = time
 
         self.activity = None
+
+        
