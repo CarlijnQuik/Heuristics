@@ -30,11 +30,11 @@ guided_simulated_annealer = simulated_annealer.random_simulated_annealer(schedul
 write_csv(guided_simulated_annealer["schedule"])
 ```
 
-#### Write CSV
+### Write CSV
 The `write_csv` function will write the entire schedule to a simple `.csv` file located in `/output_files/`
 
 
-#### Contributors: <br />
+### Contributors:
 Chris https://github.com/Chrisderijcke92<br />
 Carlijn https://github.com/CarlijnQ<br />
 Erik https://github.com/DevConfesss<br />
