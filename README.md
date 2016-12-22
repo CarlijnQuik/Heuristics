@@ -7,13 +7,13 @@ Function arguments marked with `<>` are optional. Function arguments marked with
 
 #### Run Random Hillclimber
 ```python
-random_hillclimber = hillclimber.random_hillclimber(schedule, courses, <desired_score>, <max_duration>)
+random_hillclimber = hillclimber.random_hillclimber(schedule, courses, [desired_score], <max_duration>)
 write_csv(random_hillclimber["schedule"])
 ```
 
 #### Run Guided Hillclimber
 ```python
-guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, <desired_score>)
+guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, [desired_score], <max_duration>)
 write_csv(guided_hillclimber["schedule"])
 ```
 

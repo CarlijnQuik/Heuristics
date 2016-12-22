@@ -69,7 +69,10 @@ print '\n\tDONE LOADING!\n'
 
 """
 
-    Loading finished
-    Put the code of the algorithm you want to run below
+    Loading finished.
+    Put the code of the algorithm you want to run below.
 
 """
+
+random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 850)
+write_csv(random_hillclimber["schedule"])
