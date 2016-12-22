@@ -10,6 +10,10 @@ import pylab
 import load as loader
 from collections import deque
 
+
+"""
+    Simulated annealing algorithm.
+"""
 def decision(probability):
     return random.random() < probability
 
@@ -164,7 +168,8 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp, ma
 
         # Calculate score of new schedule.
         new_score = score.calculate(new_schedule, courses)
-        # increase rank_in_subscores value to prefent getting stuck in local maximum
+        
+        # Increase rank_in_subscore's value to prevent getting stuck in local maximum.
         rank_in_subscores += 1/20
 
         decision_annealing =  (1 / (1 + (math.exp(((old_score - new_score) * 5) / temp))))
@@ -185,9 +190,11 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp, ma
             if len(score_increase) >= 61:
                 if (score_increase[-1] - score_increase[-61]) < 3:
                     break
-            # maximum duration of the algorithm
+                    
+            # Maximum duration of the algorithm.
             if (int(update_time)/ 60) >= maximum_duration:
                 break
+                
     elapsed_time = time.time() - start_time
     plt.plot(update_times, score_increase)
     plt.title("guided_simulated_annealer; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
