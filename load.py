@@ -28,7 +28,7 @@ def load_students(student_file):
             print 'Reading student file..'
             students = csv.reader(csvfile)
 
-            # Check if first row is actually a header and not values
+            # Check if first row is actually a header and not values.
             students.next()
 
             for student in students:
@@ -124,6 +124,7 @@ def create_schedule(room_list):
 
     return room_slots
 
+
 """
 
     Fill the emty schedule in one of the most basic ways.
@@ -150,13 +151,12 @@ def fill_schedule(schedule, courses):
 
                 last_class_count = len(course.student_list) % student_overflow
 
-                # If enough room in last class, divide even
-
+                # If enough room in last class, divide even.
                 if (int(course.q_seminar) > 0 and int(course.q_practicum) <= 0):
                     if (last_class_count < (student_overflow - split) and last_class_count != 0):
                         group_size = math.ceil(len(course.student_list) / split)
 
-                        # Try and divide the students evenly
+                        # Try and divide the students evenly.
                         start_bound = int(group_size * j)
                         end_bound = int(group_size * (j + 1))
 
@@ -181,11 +181,11 @@ def fill_schedule(schedule, courses):
 
                 last_class_count = len(course.student_list) % student_overflow
 
-                # If enough room in last class, divide even
+                # If enough room in last class, divide even.
                 if (last_class_count < (student_overflow - split) and last_class_count != 0):
                     group_size = math.ceil(len(course.student_list) / split)
 
-                    # Try and divide the students evenly
+                    # Try and divide the students evenly.
                     start_bound = int(group_size * j)
                     end_bound = int(group_size * (j + 1))
                     schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
@@ -204,7 +204,7 @@ def fill_schedule(schedule, courses):
 
 """
 
-    Fill the emty schedule in a random way
+    Fill the emty schedule in a random way.
 
 """
 def fill_schedule_random(schedule, courses):
@@ -228,13 +228,12 @@ def fill_schedule_random(schedule, courses):
 
                 last_class_count = len(course.student_list) % student_overflow
 
-                # If enough room in last class, divide even
-
+                # If enough room in last class, divide even.
                 if (int(course.q_seminar) > 0 and int(course.q_practicum) <= 0):
                     if (last_class_count < (student_overflow - split) and last_class_count != 0):
                         group_size = math.ceil(len(course.student_list) / split)
 
-                        # Try and divide the students evenly
+                        # Try and divide the students evenly.
                         start_bound = int(group_size * j)
                         end_bound = int(group_size * (j + 1))
                         schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
@@ -258,11 +257,11 @@ def fill_schedule_random(schedule, courses):
 
                 last_class_count = len(course.student_list) % student_overflow
 
-                # If enough room in last class, divide even
+                # If enough room in last class, divide even.
                 if (last_class_count < (student_overflow - split) and last_class_count != 0):
                     group_size = math.ceil(len(course.student_list) / split)
 
-                    # Try and divide the students evenly
+                    # Try and divide the students evenly.
                     start_bound = int(group_size * j)
                     end_bound = int(group_size * (j + 1))
                     schedule[empty_slot].activity.students = course.student_list[start_bound:end_bound]
