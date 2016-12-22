@@ -30,6 +30,13 @@ guided_simulated_annealer = simulated_annealer.random_simulated_annealer(schedul
 write_csv(guided_simulated_annealer["schedule"])
 ```
 
+#### Run Fireworks
+The current fireworks algorithm is not complete but can be run using the following two lines.
+```python
+random_fireworks = fireworks.random_fireworks(schedule, courses, [desired_score], [offpsring_count])
+write_csv(random_fireworks["schedule"])
+```
+
 #### Write CSV
 The `write_csv` function will write the entire schedule to a simple `.csv` file located in `/output_files/`
 
