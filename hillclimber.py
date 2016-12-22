@@ -21,6 +21,7 @@ def random_hillclimber(schedule, courses, desired_score, maximum_duration = None
     start_time = time.time()
     # calculate starting score of schedule
     score_schedule = score.calculate(schedule, courses)
+    print "Base Score:", score_schedule
     # lists to store the in between scores in time
     score_increase = []
     score_increase.append(score_schedule)
@@ -100,6 +101,7 @@ def guided_hillclimber(schedule, courses, desired_score):
     start_time = time.time()
     # calculate starting score of schedule
     score_schedule = score.calculate(schedule, courses)
+    print "Base Score:", score_schedule
     # score list for intermediate schedule scores is added.
     score_increase = []
     score_increase.append(score_schedule)
@@ -123,12 +125,13 @@ def guided_hillclimber(schedule, courses, desired_score):
         day_duplicate = score.check_day_duplicate(new_schedule)
         small_room = score.check_small_room(new_schedule)
         # sort the sub_scores
-        sub_scores_sorted = [special_time_slot[1], multiple_activities[1], day_duplicate[1]]
+        sub_scores_sorted = [special_time_slot[1], multiple_activities[1], day_duplicate[1], small_room[1]]
         sub_scores_sorted.sort(reverse=True)
         # put the scores into a library
         sub_scores["special_time_slot"] = special_time_slot[1]
         sub_scores["multiple_activities"] = multiple_activities[1]
         sub_scores["day_duplicate"] = day_duplicate[1]
+        sub_scores["small_room"] = small_room[1]
         # determine which sub_score belongs to the given score
 
         if rank_in_subscores < len(sub_scores):
@@ -140,7 +143,7 @@ def guided_hillclimber(schedule, courses, desired_score):
 
         #TODO: REMOVE. ONLY FOR TESTING PURPOSES
         # print "max sub score:\t", max_sub_score,
-        # print "special_time_slot: ", special_time_slot[1], "multiple_activities: ", multiple_activities[1], "day_duplicate: ", day_duplicate[1]
+        # print "special_time_slot: ", special_time_slot[1], "multiple_activities: ", multiple_activities[1], "day_duplicate: ", day_duplicate[1], "small_room: ", small_room[1]
         # print "this is day_duplicate score: ", day_duplicate[1], random.choice(day_duplicate[0][random.choice(day_duplicate[0].keys())][1:])
 
         # for day_duplicate: check_day_duplicate
@@ -166,7 +169,12 @@ def guided_hillclimber(schedule, courses, desired_score):
             # print "the empty_place:", empty_place
             swap_index_2 = empty_place
             swap_index_2 = random.randrange(len(schedule))
-         # create random swap indexes
+        elif max_sub_score == "small_room":
+            swap_index_1 = random.choice(small_room[0])
+            swap_index_2 = random.randrange(len(schedule))
+            while schedule[swap_index_2].room.capacity < len(schedule[swap_index_1].activity.students):
+                swap_index_2 = random.randrange(len(schedule))
+        # create random swap indexes
         else:
             swap_index_1 = random.randrange(len(schedule))
             swap_index_2 = random.randrange(len(schedule))
@@ -209,7 +217,7 @@ def guided_hillclimber(schedule, courses, desired_score):
     plt.plot(update_times, score_increase)
     # print plot information for save purposes
     print "guided_hillclimber_"+str(desired_score)+"_"+str(int(elapsed_time/60))+" Min"
-    plt.title("guided_hillclimber; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
+    plt.title("guided_hillclimber; final_score: " + str(score_schedule) + ", elapsed_time: "+ str(int(elapsed_time))+" sec" + "desired_score: " +str(desired_score))
     # show plot
     plt.show()
     return {"schedule" : schedule, "score" : score_schedule, "elapsed_time" : elapsed_time}

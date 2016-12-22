@@ -48,7 +48,7 @@ else:
 
 schedule = loader.create_schedule(rooms)
 # Fill the schedule with all courses
-schedule = loader.fill_schedule_random(schedule, courses)
+schedule = loader.fill_schedule(schedule, courses)
 
 # Fill the schedule with directed roomfiller
 #schedule = loader.directed_fill_schedule(schedule, courses)
@@ -74,11 +74,13 @@ print '\n\tDONE LOADING!\n'
 #
 # Random swap two activities
 
+
 random_hillclimber_schedule = hillclimber.random_hillclimber(schedule, courses, 1100)
 #guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 900)
 #random_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, -600, 1000, 20)
 #guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, -1500, 1000, 20)
 #random_fireworks = fireworks.random_fireworks(schedule, courses, 0, 5)
+
 
 
 # write_csv(random_hillclimber_schedule["schedule"])

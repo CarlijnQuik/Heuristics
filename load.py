@@ -232,7 +232,6 @@ def fill_schedule(schedule, courses):
                     # print schedule[empty_slot].activity.students
                     # print len(schedule[empty_slot].activity.students)
 
-
     return schedule
 
 
