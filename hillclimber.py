@@ -191,7 +191,7 @@ def guided_hillclimber(schedule, courses, desired_score):
         # Calculate score of new schedule.
         new_score = score.calculate(new_schedule, courses)
         
-        # increase rank_in_subscores value to prevent getting stuck in local maximum.
+        # Increase rank_in_subscores value to prevent getting stuck in local maximum.
         rank_in_subscores += 1/20
         
         # If the new score is higher, accept new schedule.
