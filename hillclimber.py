@@ -17,11 +17,11 @@ import ptp
 
 """
 def random_hillclimber(schedule, courses, desired_score, maximum_duration):
-    # clock the start time of the alghorithm
+    # clock the start time of the alghorithm.
     start_time = time.time()
-    # calculate starting score of schedule
+    # calculate starting score of schedule.
     score_schedule = score.calculate(schedule, courses)
-    # lists to store the in between scores in time
+    # lists to store the in between scores in time.
     score_increase = []
     score_increase.append(score_schedule)
     update_times = []
