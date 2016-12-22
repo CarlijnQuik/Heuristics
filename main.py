@@ -2,14 +2,22 @@
 
 import load as loader
 import csv
-import ptp
-import score
-import matplotlib.pyplot as plt
-import math
 import simulated_annealer
 import fireworks
 import hillclimber
 
+"""
+
+    Write partial info from schedule to a csv.
+    For every roomslot this will add the values:
+        - Day
+        - Time
+        - Room (name)
+        - Course (name)
+        - Type (Lecture, Seminar or Practicum)
+        - Course Group
+
+"""
 def write_csv(schedule):
     with open("output_files/schedule2.csv", "wb") as csvfile:
         cursor = csv.writer(csvfile)
@@ -21,8 +29,10 @@ def write_csv(schedule):
         print "Output file generated!"
 
 
-debug = True
-if debug or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
+PRESET = True
+
+# Determine input files
+if PRESET or raw_input('Enter def for default input or enter to continue manually: ') == 'def':
     students = loader.load_students('studenten_roostering.csv')
     courses = loader.load_courses('vakken.csv', students)
     rooms = loader.load_rooms('zalen.csv')
@@ -46,44 +56,26 @@ else:
     rooms = loader.load_rooms(room_file)
 
 
+# Create an empty schedule
 schedule = loader.create_schedule(rooms)
+
 # Fill the schedule with all courses
 schedule = loader.fill_schedule(schedule, courses)
-
-# Fill the schedule with directed roomfiller
-#schedule = loader.directed_fill_schedule(schedule, courses)
-#schedule = loader.random_fill_schedule(schedule, courses)
-#score.calculate(schedule, courses)
-
-
-
-# create random schedules, plot their scores, returns list of scores
-#scores_random_schedules = ptp.scores_random_schedules(schedule, courses, 1000)
-
-
-# schedule = simulated_annealer.random_simulated_annealer(schedule, courses, -1500, 1000)
-score.calculate(schedule, courses)
-
-#write_csv(schedule)
 
 
 
 print '\n\tDONE LOADING!\n'
 
+"""
 
-#
-# Random swap two activities
+    Loading finished
+    Put the code of the algorithm you want to run below
+
+"""
 
 
-random_hillclimber_schedule = hillclimber.random_hillclimber(schedule, courses, 1100)
-#guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 900)
+#random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 1100)
+guided_hillclimber = hillclimber.guided_hillclimber(schedule, courses, 1100)
 #random_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, -600, 1000, 20)
 #guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, -1500, 1000, 20)
 #random_fireworks = fireworks.random_fireworks(schedule, courses, 0, 5)
-
-
-
-# write_csv(random_hillclimber_schedule["schedule"])
-
-#
-# Use
