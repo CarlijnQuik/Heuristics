@@ -34,8 +34,14 @@ write_csv(guided_simulated_annealer["schedule"])
 The `write_csv` function will write the entire schedule to a simple `.csv` file located in `/output_files/`
 
 ## Change Variables
+
+#### Use Preset
+To use other input files, place all your files inside `/input_files/` and open `main.py`. Set `PRESET` to `False` and run the program. The program will ask if you want to use the default values or custom files. Hit enter and you will be able to enter the names for your custom input files.
+
 #### Overflow percentage
 The overflow percentage is used to put more students in a class than allowed. This can result in fewer groups. In order to change the overflow percentage open `load.py` and look for `OVERFLOW_PERCENTAGE` and change the value (default = 10).
+
+
 
 ### Contributors:
 Chris https://github.com/Chrisderijcke92<br />
