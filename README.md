@@ -2,7 +2,7 @@
 
 ## Run Algorithms
 
-In order to run the algorithms you should open up main.py and paste the correct lines at the bottom of the script.
+To run the different algorithms, open up main.py and paste the correct lines at the bottom of the script.<br />
 Function arguments marked with `<>` are optional. Function arguments marked with `[]` are required. All other arguments should be left untouched.
 
 ### Run Random Hillclimber
@@ -23,14 +23,15 @@ random_simulated_annealer = simulated_annealer.random_simulated_annealer(schedul
 write_csv(random_simulated_annealer["schedule"])
 ```
 
-### Run Random Guided Annealer
+### Run Guided Simulated Annealer
 
 ```python
 guided_simulated_annealer = simulated_annealer.random_simulated_annealer(schedule, courses, [desired_score], <starting_temperature>, <max_duration>)
 write_csv(guided_simulated_annealer["schedule"])
 ```
 
-### 
+#### Write CSV
+The `write_csv` function will write the entire schedule to a simple `.csv` file located in `/output_files/`
 
 
 #### Contributors: <br />
