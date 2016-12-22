@@ -180,6 +180,8 @@ def guided_hillclimber(schedule, courses, desired_score):
         else:
             swap_index_1 = random.randrange(len(schedule))
             swap_index_2 = random.randrange(len(schedule))
+            while swap_index_1 == swap_index_2:
+                swap_index_2 = random.randrange(len(schedule))
 
         # Swap courses and course types.
         temp_activity = new_schedule[swap_index_1].activity
