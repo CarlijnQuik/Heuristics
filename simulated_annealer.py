@@ -12,7 +12,9 @@ from collections import deque
 
 
 """
+
     Simulated annealing algorithm.
+    
 """
 def decision(probability):
     return random.random() < probability
@@ -72,6 +74,7 @@ def random_simulated_annealer(schedule, courses, desired_score, initial_temp, ma
             # Maximum duration of the algorithm.
             if (int(update_time)/ 60) >= maximum_duration:
                 break
+                
     elapsed_time = time.time() - start_time
     plt.plot(update_times, score_increase)
     plt.title("random_simulated_annealer; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
