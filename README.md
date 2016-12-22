@@ -1,13 +1,10 @@
 # Heuristieken: T3 Team Time Table
 
 ## Lectures & Lesroosters
-When creating a schedule, there are many variables that have to be taken into account. A good schedule for example spreads out activities over a certain timespan since a person can not be at two places at once.
-This program tries to create the best possible schedule using three `csv` input files. One for all the courses, one for the available rooms and one for the students and their subjects. The different algorithms
-will try to create the best possible schedule. A schedule can be checked for it's score to see if it is 'better' than another schedule. The higher the score, the better the schedule. All algorithms use this
-score to check for improvements in the schedule.
+When creating a schedule, there are many variables that have to be taken into account. A good schedule for example spreads out activities over a certain timespan since a person can not be at two places at once. This program tries to create the best possible schedule using three `csv` input files. One for all the courses, one for the available rooms and one for the students and their subjects. The different algorithms will try to create the best possible schedule. A schedule can be checked for it's score to see if it is 'better' than another schedule. The higher the score, the better the schedule. All algorithms use this score to check for improvements in the schedule.
 
 All information required to run or edit the program can be found below. The program should run straight away without any edits.
-At the end of running the algorithm you will also see a plot that will show the score on the Y-axis and time in seconds on the X-axis.
+At the end of running the program you will see a plot that will show the score on the Y-axis and time in seconds on the X-axis.
 
 ## Run Algorithms
 
@@ -47,7 +44,7 @@ write_csv(random_fireworks["schedule"])
 ```
 
 #### Write CSV
-The `write_csv` function will write the entire schedule to a simple `.csv` file located in `/output_files/`
+The `write_csv` function will write a simplified version of the schedule to a `.csv` file located in `/output_files/`
 
 ## Change Variables
 
