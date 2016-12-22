@@ -13,7 +13,7 @@ from collections import deque
 def decision(probability):
     return random.random() < probability
 
-def random_simulated_annealer(schedule, courses, desired_score, initial_temp, maximum_duration):
+def random_simulated_annealer(schedule, courses, desired_score, initial_temp = 1000, maximum_duration = None):
     # clock the start time of the alghorithm
     start_time = time.time()
     # calculate starting score of schedule
@@ -68,8 +68,9 @@ def random_simulated_annealer(schedule, courses, desired_score, initial_temp, ma
                 if (score_increase[-1] - score_increase[-61]) < 3:
                     break
             # maximum duration of the algorithm
-            if (int(update_time)/ 60) >= maximum_duration:
-                break
+            if maximum_duration is not None:
+                if (int(update_time)/ 60) >= maximum_duration:
+                    break
     elapsed_time = time.time() - start_time
     plt.plot(update_times, score_increase)
     plt.title("random_simulated_annealer; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
@@ -79,7 +80,7 @@ def random_simulated_annealer(schedule, courses, desired_score, initial_temp, ma
     print "\trandom_simulated_annealer; score: ", score_schedule, "elapsed time: ", int(elapsed_time / 60),"Min", int(elapsed_time % 60), "sec"
     return {"schedule" : schedule, "score" : score_schedule, "elapsed_time" : elapsed_time}
 
-def guided_simulated_annealer(schedule, courses, desired_score, initial_temp, maximum_duration):
+def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1000, maximum_duration = None):
     start_time = time.time()
     # calculate starting score of schedule
     score_schedule = score.calculate(schedule, courses)
@@ -183,8 +184,9 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp, ma
                 if (score_increase[-1] - score_increase[-61]) < 3:
                     break
             # maximum duration of the algorithm
-            if (int(update_time)/ 60) >= maximum_duration:
-                break
+            if maximum_duration is not None:
+                if (int(update_time)/ 60) >= maximum_duration:
+                    break
     elapsed_time = time.time() - start_time
     plt.plot(update_times, score_increase)
     plt.title("guided_simulated_annealer; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
