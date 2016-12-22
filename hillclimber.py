@@ -208,7 +208,7 @@ def guided_hillclimber(schedule, courses, desired_score):
             update_times.append(update_time)
             score_increase.append(score_schedule)
             if len(score_increase) >= 61:
-                if (score_increase[-1] - score_increase[-61]) < 15:
+                if (score_increase[-1] - score_increase[-61]) < 3:
                     break
                     
     # Calculate total time since the algorithm has started.
