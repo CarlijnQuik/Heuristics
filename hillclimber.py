@@ -199,13 +199,14 @@ def guided_hillclimber(schedule, courses, desired_score):
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
             print score_schedule
-            # reset rank_in_subscorescore
+            
+            # Reset rank_in_subscore.
             rank_in_subscores = 0
 
         # Create time_stamp.
         update_time = time.time() - start_time
         
-        # Store time_stamp if new second with the schedules score.
+        # Store timestamp per whole second.
         if int(update_time) != int(update_times[-1]):
             update_times.append(update_time)
             score_increase.append(score_schedule)
