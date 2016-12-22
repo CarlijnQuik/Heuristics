@@ -23,8 +23,6 @@ def calculate(schedule, courses):
     score -= check_multiple_activities(schedule)[1]
     score -= check_special_timeslot(schedule)[1]
 
-    #print '\n', 'SCORE: {:04d}'.format(score), '\n\n'
-
     return score
 
 
@@ -128,6 +126,7 @@ def check_spreading(schedule, courses):
     # Go over the list generated above.
     for course in courses:
         if len(course.groups) > 0:
+
             # Check spreading for every course group.
             for group in course.groups:
                 key = course.name + group
@@ -201,6 +200,7 @@ def check_day_duplicate(schedule):
     # Go over all roomslots.
     for i, roomslot in enumerate(schedule):
         if roomslot.activity:
+
             # Filter for groups
             if roomslot.activity.group is not "":
                 if roomslot.day in day_activity_list.keys():
