@@ -19,13 +19,13 @@ import hillclimber
 
 """
 def write_csv(schedule):
-    with open("output_files/schedule2.csv", "wb") as csvfile:
+    with open("output_files/schedule.csv", "wb") as csvfile:
         cursor = csv.writer(csvfile)
 
         for i, roomslot in enumerate(schedule):
             # Only print real activities
             if roomslot.activity and roomslot.activity.course:
-                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group])
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group, len(roomslot.activity.students), roomslot.room.capacity])
 
         print "Output file generated!"
 
@@ -74,8 +74,5 @@ print '\n\tDONE LOADING!\n'
 
 """
 
-# random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 850)
-# write_csv(random_hillclimber["schedule"])
-
-guided_simulated_annealer = simulated_annealer.guided_simulated_annealer(schedule, courses, 900)
-write_csv(guided_simulated_annealer["schedule"])
+random_hillclimber = hillclimber.random_hillclimber(schedule, courses, 850)
+write_csv(random_hillclimber["schedule"])
