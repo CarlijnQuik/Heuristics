@@ -25,7 +25,7 @@ def write_csv(schedule):
         for i, roomslot in enumerate(schedule):
             # Only print real activities
             if roomslot.activity and roomslot.activity.course:
-                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group, len(roomslot.activity.students), roomslot.room.capacity])
+                cursor.writerow([roomslot.day, roomslot.time, roomslot.room.name, roomslot.activity.course.name, roomslot.activity.type, roomslot.activity.group, len(roomslot.activity.students) / roomslot.room.capacity])
 
         print "Output file generated!"
 
