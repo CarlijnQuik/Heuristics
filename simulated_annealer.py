@@ -158,7 +158,6 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
         # For CDD: check_day_duplicate.
         if max_sub_score == "CDD":
             swap_index_1 = random.choice(CDD[0][random.choice(CDD[0].keys())][1:])
-            print new_schedule[swap_index_1].day
             swap_index_2 = random.randrange(len(schedule))
             while new_schedule[swap_index_1].day == new_schedule[swap_index_2].day:
                 swap_index_2 = random.randrange(len(schedule))
@@ -173,10 +172,7 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
         # For STS: special_timeslot.
         elif max_sub_score == "STS":
             swap_index_1 = STS[0][0]
-            print STS[0][0]
-            print new_schedule[STS[0][0]].activity.course.seminar_max_students
             empty_place = ptp.find_empty_random(new_schedule)
-            print "the empty_place:", empty_place
             swap_index_2 = empty_place
             swap_index_2 = random.randrange(len(schedule))
             
@@ -202,7 +198,6 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
             score_schedule = new_score
             print score_schedule
         elif decision(decision_annealing):
-            print "                 there was annealed", decision_annealing, (abs(old_score)-abs(new_score))
             schedule = copy.deepcopy(new_schedule)
             score_schedule = new_score
             print score_schedule
@@ -225,7 +220,6 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
     elapsed_time = time.time() - start_time
     plt.plot(update_times, score_increase)
     plt.title("guided_simulated_annealer; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
-    print "guided_simulated_annealer"+str(desired_score)+"_"+str(int(elapsed_time))
     plt.show()
     print score_increase
     print "\tguided_simulated_annealer; score: ", score_schedule, "elapsed time: ", int(elapsed_time / 60),"Min", int(elapsed_time % 60), "sec"
