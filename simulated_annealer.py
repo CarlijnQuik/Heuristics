@@ -221,7 +221,6 @@ def guided_simulated_annealer(schedule, courses, desired_score, initial_temp = 1
     plt.plot(update_times, score_increase)
     plt.title("guided_simulated_annealer; desired_score: " +str(desired_score) + ", elapsed_time: "+ str(int(elapsed_time))+" sec")
     plt.show()
-    print score_increase
     print "\tguided_simulated_annealer; score: ", score_schedule, "elapsed time: ", int(elapsed_time / 60),"Min", int(elapsed_time % 60), "sec"
     
     return {"schedule" : schedule, "score" : score_schedule, "elapsed_time" : elapsed_time}
