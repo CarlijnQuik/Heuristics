@@ -1,4 +1,5 @@
-# Heuristieken
+# Heuristics
+## Case: Lectures and Schedules
 
 Contributors: <br />
 Chris https://github.com/Chrisderijcke92<br />
