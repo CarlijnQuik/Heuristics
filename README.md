@@ -2,7 +2,7 @@
 
 Contributors: <br />
 Chris https://github.com/Chrisderijcke92<br />
-Carlijn https://github.com/carlijnq<br />
+Carlijn https://github.com/CarlijnQ<br />
 Erik https://github.com/DevConfesss<br />
 
 ---
